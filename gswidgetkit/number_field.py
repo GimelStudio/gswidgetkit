@@ -47,7 +47,7 @@ class NumberField(wx.Control):
         self.control_size = wx.DefaultSize
         self.show_p = show_p
         self.buffer = None
-        
+             
         if scroll_horz is True:
             self.scroll_dir = 0
         else:
@@ -289,7 +289,7 @@ class NumberField(wx.Control):
             else:
                 if (self.cur_value - 1) >= 0:
                     if self.cur_value > self.min_value:
-                        self.cur_value-=1
+                        self.cur_value -= 1
 
             # Reset the change value since the value was just changed.
             self.change_value = 0
@@ -352,11 +352,11 @@ class TestAppFrame(wx.Frame):
         ctrl5 = NumberField(self, default_value=13, label="Y:",
                             min_value=0, max_value=100, suffix="", show_p=False)
 
-        sz.Add(ctrl1, flag=wx.EXPAND|wx.BOTH, border=20)
-        sz.Add(ctrl2, flag=wx.EXPAND|wx.BOTH, border=20)
-        sz.Add(ctrl3, flag=wx.EXPAND|wx.BOTH, border=20)
-        sz.Add(ctrl4, flag=wx.EXPAND|wx.BOTH, border=20)
-        sz.Add(ctrl5, flag=wx.EXPAND|wx.BOTH, border=20)
+        sz.Add(ctrl1, flag=wx.EXPAND | wx.BOTH, border=20)
+        sz.Add(ctrl2, flag=wx.EXPAND | wx.BOTH, border=20)
+        sz.Add(ctrl3, flag=wx.EXPAND | wx.BOTH, border=20)
+        sz.Add(ctrl4, flag=wx.EXPAND | wx.BOTH, border=20)
+        sz.Add(ctrl5, flag=wx.EXPAND | wx.BOTH, border=20)
 
         self.Bind(EVT_NUMBERFIELD_CHANGE, self.OnFieldChange, ctrl1)
         self.Bind(EVT_NUMBERFIELD, self.OnField, ctrl1)
