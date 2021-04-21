@@ -314,13 +314,13 @@ class NumberField(wx.Control):
         lbl_text_w, lbl_text_h = dc.GetTextExtent(normal_label)
         val_text_w, val_text_h = dc.GetTextExtent(value_label)
 
-        totalwidth = lbl_text_w + val_text_w + self.padding_x + 76
+        totalwidth = lbl_text_w + val_text_w + self.padding_x + 76 + self.outer_padding*2
         
         # To avoid issues with drawing the control properly, we 
         # always make sure the width is an even number.
         if totalwidth % 2:
             totalwidth -= 1
-        totalheight = lbl_text_h + self.padding_y + self.outer_padding
+        totalheight = lbl_text_h + self.padding_y + self.outer_padding*2
 
         best = wx.Size(totalwidth, totalheight)
 
@@ -336,6 +336,7 @@ class TestAppFrame(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((900, 400))
+        self.SetBackgroundColour(wx.Colour("#464646"))
 
         sz = wx.BoxSizer(wx.VERTICAL)
 
