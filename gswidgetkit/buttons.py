@@ -23,8 +23,6 @@ try:
 except Exception:
     pass
 
-from icons import TEST_ICON
-
 button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 
@@ -289,57 +287,58 @@ class Button(wx.Control):
         return wx.Size(size)
 
 
-class TestAppFrame(wx.Frame):
-    def __init__(self, *args, **kwds):
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
-        wx.Frame.__init__(self, *args, **kwds)
-        self.SetSize((900, 400))
-        self.SetBackgroundColour(wx.Colour("#464646"))
-
-        sz = wx.BoxSizer(wx.VERTICAL)
-
-        ctrl1 = Button(self, label="Contrast", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-        ctrl2 = Button(self, label="Render Image")
-        ctrl3 = Button(self, label="Contrast", 
-                        bmp=(TEST_ICON.GetBitmap(), 'top'))
-        ctrl4 = Button(self, label="Choose Layer", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-
-        sz2 = wx.BoxSizer(wx.HORIZONTAL)
-
-        ctrl5 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-        ctrl6 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-        ctrl7 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-        ctrl8 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-
-        sz2.Add(ctrl5, border=20)
-        sz2.Add(ctrl6, border=20)
-        sz2.Add(ctrl7, border=20)
-        sz2.Add(ctrl8, border=20)
-
-        sz.Add(ctrl1, flag=wx.EXPAND, border=20)
-        sz.Add(ctrl2, border=20)
-        sz.Add(ctrl3, border=20)
-        sz.Add(ctrl4, border=20)
-        sz.Add(sz2, border=20)
-
-        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl1)
-        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl2)
-        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl3)
-        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl4)
-
-        self.SetSizer(sz)
-
-    def OnButtonClick(self, event):
-        print("button clicked")
-
-
 if __name__ == "__main__":
+    from icons import TEST_ICON
+
+    class TestAppFrame(wx.Frame):
+        def __init__(self, *args, **kwds):
+            kwds["style"] = wx.DEFAULT_FRAME_STYLE
+            wx.Frame.__init__(self, *args, **kwds)
+            self.SetSize((900, 400))
+            self.SetBackgroundColour(wx.Colour("#464646"))
+
+            sz = wx.BoxSizer(wx.VERTICAL)
+
+            ctrl1 = Button(self, label="Contrast", 
+                            bmp=(TEST_ICON.GetBitmap(), 'left'))
+            ctrl2 = Button(self, label="Render Image")
+            ctrl3 = Button(self, label="Contrast", 
+                            bmp=(TEST_ICON.GetBitmap(), 'top'))
+            ctrl4 = Button(self, label="Choose Layer", 
+                            bmp=(TEST_ICON.GetBitmap(), 'left'))
+
+            sz2 = wx.BoxSizer(wx.HORIZONTAL)
+
+            ctrl5 = Button(self, label="", 
+                            bmp=(TEST_ICON.GetBitmap(), 'left'))
+            ctrl6 = Button(self, label="", 
+                            bmp=(TEST_ICON.GetBitmap(), 'left'))
+            ctrl7 = Button(self, label="", 
+                            bmp=(TEST_ICON.GetBitmap(), 'left'))
+            ctrl8 = Button(self, label="", 
+                            bmp=(TEST_ICON.GetBitmap(), 'left'))
+
+            sz2.Add(ctrl5, border=20)
+            sz2.Add(ctrl6, border=20)
+            sz2.Add(ctrl7, border=20)
+            sz2.Add(ctrl8, border=20)
+
+            sz.Add(ctrl1, flag=wx.EXPAND, border=20)
+            sz.Add(ctrl2, border=20)
+            sz.Add(ctrl3, border=20)
+            sz.Add(ctrl4, border=20)
+            sz.Add(sz2, border=20)
+
+            self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl1)
+            self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl2)
+            self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl3)
+            self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl4)
+
+            self.SetSizer(sz)
+
+        def OnButtonClick(self, event):
+            print("button clicked")
+
     app = wx.App(False)
     frame = TestAppFrame(None, wx.ID_ANY, "Buttons")
     app.SetTopWindow(frame)

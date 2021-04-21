@@ -24,8 +24,10 @@ try:
 except Exception:
     pass
 
-from icons import ICON_BRUSH_CHECKERBOARD
-
+try:
+    from .icons import ICON_BRUSH_CHECKERBOARD
+except:
+    from icons import ICON_BRUSH_CHECKERBOARD
 
 button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
@@ -176,38 +178,38 @@ class ColorPickerButton(wx.Control):
         return wx.Size(size)
 
 
-class TestAppFrame(wx.Frame):
-    def __init__(self, *args, **kwds):
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
-        wx.Frame.__init__(self, *args, **kwds)
-        self.SetSize((900, 400))
-        self.SetBackgroundColour(wx.Colour("#464646"))
-
-        sz = wx.BoxSizer(wx.VERTICAL)
-
-        ctrl1 = ColorPickerButton(self, label="Background Color:")
-        ctrl2 = ColorPickerButton(self, label="Highlight Color:", 
-                                    default=(0, 54, 78, 215))
-        ctrl3 = ColorPickerButton(self, label="Text Color:", 
-                                    default=(255, 255, 255, 255))
-
-        sz.Add(ctrl1, flag=wx.EXPAND, border=20)
-        sz.Add(ctrl2, flag=wx.EXPAND, border=20)
-        sz.Add(ctrl3, flag=wx.EXPAND, border=20)
-
-        self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl1)
-        self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl2)
-        self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl3)
-
-        self.SetSizer(sz)
-
-    def OnColorChosen(self, event):
-        print("Color selected: ", event.value)
-
-
 if __name__ == "__main__":
+    class TestAppFrame(wx.Frame):
+        def __init__(self, *args, **kwds):
+            kwds["style"] = wx.DEFAULT_FRAME_STYLE
+            wx.Frame.__init__(self, *args, **kwds)
+            self.SetSize((900, 400))
+            self.SetBackgroundColour(wx.Colour("#464646"))
+
+            sz = wx.BoxSizer(wx.VERTICAL)
+
+            ctrl1 = ColorPickerButton(self, label="Background Color:")
+            ctrl2 = ColorPickerButton(self, label="Highlight Color:", 
+                                        default=(0, 54, 78, 215))
+            ctrl3 = ColorPickerButton(self, label="Text Color:", 
+                                        default=(255, 255, 255, 255))
+
+            sz.Add(ctrl1, flag=wx.EXPAND, border=20)
+            sz.Add(ctrl2, flag=wx.EXPAND, border=20)
+            sz.Add(ctrl3, flag=wx.EXPAND, border=20)
+
+            self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl1)
+            self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl2)
+            self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl3)
+
+            self.SetSizer(sz)
+
+        def OnColorChosen(self, event):
+            print("Color selected: ", event.value)
+
     app = wx.App(False)
     frame = TestAppFrame(None, wx.ID_ANY, "Color Picker")
     app.SetTopWindow(frame)
     frame.Show()
     app.MainLoop()
+    
