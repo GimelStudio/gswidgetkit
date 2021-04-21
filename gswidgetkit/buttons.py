@@ -23,6 +23,8 @@ try:
 except Exception:
     pass
 
+from icons import TEST_ICON
+
 button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 
@@ -283,16 +285,17 @@ class TestAppFrame(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((900, 400))
+        self.SetBackgroundColour(wx.Colour("#464646"))
 
         sz = wx.BoxSizer(wx.VERTICAL)
 
         ctrl1 = Button(self, label="Contrast", 
-                        bmp=(wx.Bitmap('test_icon.png'), 'left'))
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
         ctrl2 = Button(self, label="Render Image")
         ctrl3 = Button(self, label="Contrast", 
-                        bmp=(wx.Bitmap('test_icon.png'), 'top'))
+                        bmp=(TEST_ICON.GetBitmap(), 'top'))
         ctrl4 = Button(self, label="", 
-                        bmp=(wx.Bitmap('test_icon.png'), 'left'))
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
 
         sz.Add(ctrl1, flag=wx.EXPAND, border=20)
         sz.Add(ctrl2, border=20)
