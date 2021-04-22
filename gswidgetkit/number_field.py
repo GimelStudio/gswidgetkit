@@ -23,6 +23,7 @@ try:
 except Exception:
     pass
 
+from textctrl import TextCtrl
 
 numberfield_cmd_event, EVT_NUMBERFIELD = NewCommandEvent()
 numberfield_change_cmd_event, EVT_NUMBERFIELD_CHANGE = NewCommandEvent()
@@ -74,6 +75,14 @@ class NumberField(wx.Control):
         # The point in which the cursor gets anchored to during the drag event
         self.anchor_point = (0, 0)
 
+        # Text ctrl
+        self.textctrl = TextCtrl(self, value=str(self.cur_value), style=wx.BORDER_NONE, 
+                                 pos=(20, self.Size[1]/2), size=(50, 24))
+        self.textctrl.Hide()
+
+        self.textctrl.Bind(wx.EVT_LEAVE_WINDOW, self.OnHideTextCtrl)
+        self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnHideTextCtrl)
+
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
         self.Bind(wx.EVT_MOTION, self.OnMouseMotion)
@@ -83,8 +92,8 @@ class NumberField(wx.Control):
         self.Bind(wx.EVT_KILL_FOCUS, self.OnKillFocus)
         self.Bind(wx.EVT_LEAVE_WINDOW, self.OnMouseLeave)
         self.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
+        self.Bind(wx.EVT_LEFT_DCLICK, self.OnShowTextCtrl)
         self.Bind(wx.EVT_SIZE, self.OnSize)
-
 
     def OnPaint(self, event):
         wx.BufferedPaintDC(self, self.buffer)
@@ -152,6 +161,9 @@ class NumberField(wx.Control):
         dc.DrawText(self.label, self.padding_x, int((height/2) - (lbl_h/2)))
         dc.DrawText(full_val_lbl, (width-self.padding_x) - (val_w), int((height/2) - (val_h/2)))
         
+        # Update position of textctrl
+        self.textctrl.SetPosition((int(self.Size[0] - self.padding_x - 50), 
+                                  (int(self.Size[1]/2) - 10)))
 
     def OnMouseMotion(self, event):
         """
@@ -186,6 +198,19 @@ class NumberField(wx.Control):
             self.changing_value = False
             self.parent.SetDoubleBuffered(False)
 
+    def OnHideTextCtrl(self, event):
+        value = self.textctrl.GetValue()
+        if value != " ":
+            new_value = int(value)
+            if new_value in [i for i in range(0, self.max_value+1)]:
+                if new_value >= self.min_value and new_value <= self.max_value:
+                    self.cur_value = new_value
+        self.textctrl.Hide()
+
+    def OnShowTextCtrl(self, event):
+        if self.show_p is False:
+            self.textctrl.Show()
+
     def SendSliderEvent(self):
         wx.PostEvent(self, numberfield_cmd_event(id=self.GetId(), value=self.cur_value))
 
@@ -193,7 +218,8 @@ class NumberField(wx.Control):
         # Implement a debounce where only one event is
         # sent only if the value actually changed.
         if self.cur_value != self.last_sent_event:
-            wx.PostEvent(self, numberfield_change_cmd_event(id=self.GetId(), value=self.cur_value))
+            wx.PostEvent(self, numberfield_change_cmd_event(
+                                    id=self.GetId(), value=self.cur_value))
             self.last_sent_event = self.cur_value
             
     def Increasing(self):
@@ -228,6 +254,7 @@ class NumberField(wx.Control):
         self.anchor_point = (width/2, height/2)
         self.changing_value = True
         self.parent.SetDoubleBuffered(True)
+        self.OnHideTextCtrl(None)
         self.UpdateDrawing()
 
     def OnSetFocus(self, event):
