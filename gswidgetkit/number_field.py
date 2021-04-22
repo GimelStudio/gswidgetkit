@@ -206,6 +206,9 @@ class NumberField(wx.Control):
                 if new_value >= self.min_value and new_value <= self.max_value:
                     self.cur_value = new_value
         self.textctrl.Hide()
+        self.SendChangeEvent()
+        self.SendSliderEvent()
+        self.UpdateDrawing()
 
     def OnShowTextCtrl(self, event):
         if self.show_p is False:
