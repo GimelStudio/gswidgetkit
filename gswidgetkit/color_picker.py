@@ -35,7 +35,7 @@ class ColorPickerButton(wx.Control):
         self.cur_color = default
 
         self.label = label
-        self.padding = (5, 10, 10, 5)
+        self.padding = (5, 10, 5, 10)
  
         self.buffer = None
         self.size = None
