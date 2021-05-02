@@ -22,8 +22,8 @@ button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 class Button(wx.Control):
     def __init__(self, parent, id=wx.ID_ANY, label="", bmp=None, center=True, 
-                pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.NO_BORDER, 
-                *args, **kwargs):
+                flat=False, pos=wx.DefaultPosition, size=wx.DefaultSize, 
+                style=wx.NO_BORDER, *args, **kwargs):
         wx.Control.__init__(self, parent, id, pos, size, style, *args, **kwargs)
 
         self.parent = parent
@@ -39,6 +39,7 @@ class Button(wx.Control):
               
         self.buffer = None
         self.center = center
+        self.flat = flat
         self.outer_padding = 4
         self.size = None
         self.bmp = bmp
@@ -98,7 +99,11 @@ class Button(wx.Control):
             dc.SetBrush(wx.Brush(wx.Colour("#4C4C4C")))
 
         else:
-            dc.SetBrush(wx.Brush(wx.Colour("#333333")))
+            if self.flat is True:
+                color = self.parent.GetBackgroundColour()
+            else:
+                color = "#333333"
+            dc.SetBrush(wx.Brush(wx.Colour(color)))
 
         dc.DrawRoundedRectangle(0, 0, w, h, 4)
 
