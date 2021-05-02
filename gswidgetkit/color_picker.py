@@ -18,23 +18,15 @@ import wx
 from wx.lib.newevent import NewCommandEvent
 import wx.lib.agw.cubecolourdialog as colordialog
 
-import ctypes
-try:
-    ctypes.windll.shcore.SetProcessDpiAwareness(True)
-except Exception:
-    pass
+from .icons import ICON_BRUSH_CHECKERBOARD
 
-try:
-    from .icons import ICON_BRUSH_CHECKERBOARD
-except:
-    from icons import ICON_BRUSH_CHECKERBOARD
 
 button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 
 class ColorPickerButton(wx.Control):
     def __init__(self, parent, id=wx.ID_ANY, label="", default=(213, 219, 213, 177),
-                 pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.NO_BORDER, 
+                 pos=wx.DefaultPosition, size=wx.Size(400, -1), style=wx.NO_BORDER, 
                  *args, **kwargs):
         wx.Control.__init__(self, parent, id, pos, size, style, *args, **kwargs)
 
@@ -43,8 +35,7 @@ class ColorPickerButton(wx.Control):
         self.cur_color = default
 
         self.label = label
-        self.padding = (10, 20, 10, 20)
-        self.outer_padding = 4
+        self.padding = (5, 10, 10, 5)
  
         self.buffer = None
         self.size = None
@@ -99,22 +90,16 @@ class ColorPickerButton(wx.Control):
 
         txt_w, txt_h = dc.GetTextExtent(self.label)
 
-        txt_x = self.padding[3] + self.outer_padding
-        txt_y = self.padding[0] + self.outer_padding
+        txt_x = self.padding[3]
+        txt_y = self.padding[0]
 
         txt_w = txt_w + self.padding[1] + self.padding[3]
 
         dc.SetBrush(wx.Brush(ICON_BRUSH_CHECKERBOARD.GetBitmap()))
-        dc.DrawRoundedRectangle(txt_w+self.outer_padding, 
-                                self.outer_padding, 
-                                w-txt_w-self.outer_padding*2, 
-                                h-(self.outer_padding*2), 4)
+        dc.DrawRoundedRectangle(txt_w, 0, w-txt_w, h, 4)
 
         dc.SetBrush(wx.Brush(wx.Colour(self.cur_color)))
-        dc.DrawRoundedRectangle(txt_w+self.outer_padding, 
-                                self.outer_padding, 
-                                w-txt_w-self.outer_padding*2, 
-                                h-(self.outer_padding*2), 4)
+        dc.DrawRoundedRectangle(txt_w, 0, w-txt_w, h, 4)
 
         # Text color
         if self.mouse_down or self.focused or self.mouse_in:
@@ -172,44 +157,7 @@ class ColorPickerButton(wx.Control):
 
         txt_w, txt_h = dc.GetTextExtent(self.label)
 
-        size = (self.padding[3] + txt_w + self.padding[1] + self.outer_padding*2,
-                self.padding[0] + txt_h + self.padding[2] + self.outer_padding*2)
+        size = (self.padding[3] + txt_w + self.padding[1],
+                self.padding[0] + txt_h + self.padding[2])
 
         return wx.Size(size)
-
-
-if __name__ == "__main__":
-    class TestAppFrame(wx.Frame):
-        def __init__(self, *args, **kwds):
-            kwds["style"] = wx.DEFAULT_FRAME_STYLE
-            wx.Frame.__init__(self, *args, **kwds)
-            self.SetSize((900, 400))
-            self.SetBackgroundColour(wx.Colour("#464646"))
-
-            sz = wx.BoxSizer(wx.VERTICAL)
-
-            ctrl1 = ColorPickerButton(self, label="Background Color:")
-            ctrl2 = ColorPickerButton(self, label="Highlight Color:", 
-                                        default=(0, 54, 78, 215))
-            ctrl3 = ColorPickerButton(self, label="Text Color:", 
-                                        default=(255, 255, 255, 255))
-
-            sz.Add(ctrl1, flag=wx.EXPAND, border=20)
-            sz.Add(ctrl2, flag=wx.EXPAND, border=20)
-            sz.Add(ctrl3, flag=wx.EXPAND, border=20)
-
-            self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl1)
-            self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl2)
-            self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl3)
-
-            self.SetSizer(sz)
-
-        def OnColorChosen(self, event):
-            print("Color selected: ", event.value)
-
-    app = wx.App(False)
-    frame = TestAppFrame(None, wx.ID_ANY, "Color Picker")
-    app.SetTopWindow(frame)
-    frame.Show()
-    app.MainLoop()
-    
