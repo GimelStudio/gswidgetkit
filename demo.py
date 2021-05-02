@@ -24,7 +24,8 @@ except Exception:
 
 from gswidgetkit import (NumberField, EVT_NUMBERFIELD, 
                          EVT_NUMBERFIELD_CHANGE, NativeTextCtrl,
-                         TextCtrl, ColorPickerButton, EVT_BUTTON)
+                         TextCtrl, ColorPickerButton, EVT_BUTTON,
+                         Button)
 from gswidgetkit.icons import TEST_ICON
 
 
@@ -60,6 +61,30 @@ class TestAppFrame(wx.Frame):
         ctrl10 = ColorPickerButton(self, label="Text Color:", 
                                     default=(255, 255, 255, 255))
 
+        ctrl11 = Button(self, label="Contrast", 
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+        ctrl12 = Button(self, label="Render Image")
+        ctrl13 = Button(self, label="Contrast", 
+                        bmp=(TEST_ICON.GetBitmap(), 'top'))
+        ctrl14 = Button(self, label="Choose Layer", 
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+
+        sz2 = wx.BoxSizer(wx.HORIZONTAL)
+
+        ctrl15 = Button(self, label="", 
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+        ctrl16 = Button(self, label="", 
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+        ctrl17 = Button(self, label="", 
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+        ctrl18 = Button(self, label="", 
+                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+
+        sz2.Add(ctrl15, flag=wx.EXPAND | wx.ALL, border=6)
+        sz2.Add(ctrl16, flag=wx.EXPAND | wx.ALL, border=6)
+        sz2.Add(ctrl17, flag=wx.EXPAND | wx.ALL, border=6)
+        sz2.Add(ctrl18, flag=wx.EXPAND | wx.ALL, border=6)
+
         sz.Add(ctrl1, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl2, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl3, flag=wx.EXPAND | wx.ALL, border=6)
@@ -71,13 +96,25 @@ class TestAppFrame(wx.Frame):
         sz.Add(ctrl9, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl10, flag=wx.EXPAND | wx.ALL, border=6)
 
+        sz.Add(ctrl11, flag=wx.EXPAND | wx.ALL, border=6)
+        sz.Add(ctrl12, flag=wx.EXPAND | wx.ALL, border=6)
+        sz.Add(ctrl13, flag=wx.EXPAND | wx.ALL, border=6)
+        sz.Add(ctrl14, flag=wx.EXPAND | wx.ALL, border=6)
+        sz.Add(sz2, border=20)
+
+        self.SetSizer(sz)
+
+        # Events
         self.Bind(EVT_NUMBERFIELD_CHANGE, self.OnFieldChange, ctrl1)
         self.Bind(EVT_NUMBERFIELD, self.OnField, ctrl1)
         self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl8)
         self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl9)
         self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl10)
+        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl11)
+        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl12)
+        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl13)
+        self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl14)
 
-        self.SetSizer(sz)
 
     def OnFieldChange(self, event):
         print("->", event.value)
@@ -87,6 +124,9 @@ class TestAppFrame(wx.Frame):
 
     def OnColorChosen(self, event):
         print("Color selected: ", event.value)
+
+    def OnButtonClick(self, event):
+        print("Button clicked: ", event.GetId())
 
 
 if __name__ == "__main__":
