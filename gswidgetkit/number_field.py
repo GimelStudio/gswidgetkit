@@ -17,13 +17,7 @@
 import wx
 from wx.lib.newevent import NewCommandEvent
 
-import ctypes
-try:
-    ctypes.windll.shcore.SetProcessDpiAwareness(True)
-except Exception:
-    pass
-
-from textctrl import TextCtrl
+from .textctrl import TextCtrl
 
 numberfield_cmd_event, EVT_NUMBERFIELD = NewCommandEvent()
 numberfield_change_cmd_event, EVT_NUMBERFIELD_CHANGE = NewCommandEvent()
@@ -62,7 +56,6 @@ class NumberField(wx.Control):
         self.value_range = [i for i in range(min_value, max_value)]
         self.label = label
 
-        self.outer_padding = 4
         self.padding_x = 20
         self.padding_y = 10
 
@@ -76,8 +69,9 @@ class NumberField(wx.Control):
         self.anchor_point = (0, 0)
 
         # Text ctrl
-        self.textctrl = TextCtrl(self, value=str(self.cur_value), style=wx.BORDER_NONE, 
-                                 pos=(20, self.Size[1]/2), size=(50, 24))
+        self.textctrl = TextCtrl(self, value=str(self.cur_value), 
+                                 style=wx.BORDER_NONE, pos=(0, 0), 
+                                 size=(10, 24))
         self.textctrl.Hide()
 
         self.textctrl.Bind(wx.EVT_LEAVE_WINDOW, self.OnHideTextCtrl)
@@ -127,16 +121,13 @@ class NumberField(wx.Control):
         dc.SetFont(fnt)
         dc.SetPen(wx.TRANSPARENT_PEN)
 
-        x = self.outer_padding
-        y = self.outer_padding
-
         full_val_lbl = str(self.cur_value)+self.suffix
 
-        width = self.Size[0] - (self.outer_padding*2)
-        height = self.Size[1] - (self.outer_padding)
+        width = self.Size[0]
+        height = self.Size[1]
         
         one_val = width / self.max_value
-        p_val = round((self.cur_value*one_val))
+        self.p_val = round((self.cur_value*one_val))
 
         if self.mouse_in:
             dc.SetTextForeground("#ffffff")
@@ -144,26 +135,25 @@ class NumberField(wx.Control):
         else:
             dc.SetTextForeground("#e9e9e9")
             dc.SetBrush(wx.Brush(wx.Colour("#333333")))
-        dc.DrawRoundedRectangle(x, y, width, height, 4)
+        dc.DrawRoundedRectangle(0, 0, width, height, 4)
 
         if self.show_p is True:
             dc.SetBrush(wx.Brush(wx.Colour("#5680C2")))
-            dc.DrawRoundedRectangle(x, y, p_val, height, 4)
+            dc.DrawRoundedRectangle(0, 0, self.p_val, height, 4)
         
-            if p_val < width-4 and p_val > 4:
-                dc.DrawRectangle((p_val+self.outer_padding)-4, y, 4, height)
+            if self.p_val < width-4 and self.p_val > 4:
+                dc.DrawRectangle((self.p_val)-4, 0, 4, height)
 
         lbl_w, lbl_h = GetTextExtent(self.label)
         val_w, val_h = GetTextExtent(full_val_lbl)
-
-        height = self.Size[1] + (self.outer_padding)
         
         dc.DrawText(self.label, self.padding_x, int((height/2) - (lbl_h/2)))
         dc.DrawText(full_val_lbl, (width-self.padding_x) - (val_w), int((height/2) - (val_h/2)))
         
         # Update position of textctrl
-        self.textctrl.SetPosition((int(self.Size[0] - self.padding_x - 50), 
-                                  (int(self.Size[1]/2) - 10)))
+        self.textctrl.SetPosition((5, (int(self.Size[1]/2) - 10)))
+        self.textctrl.SetSize((int(self.Size[0]-10), 24))
+        self.textctrl.SetCurrentPos(len(str(self.cur_value)))
 
     def OnMouseMotion(self, event):
         """
@@ -194,7 +184,7 @@ class NumberField(wx.Control):
 
         # Case where the mouse is moving over the control, but has no
         # intent to actually change the value
-        if self.changing_value and not event.Dragging():
+        elif self.changing_value and not event.Dragging():
             self.changing_value = False
             self.parent.SetDoubleBuffered(False)
 
@@ -213,6 +203,7 @@ class NumberField(wx.Control):
     def OnShowTextCtrl(self, event):
         if self.show_p is False:
             self.textctrl.Show()
+            self.textctrl.SetFocus()
 
     def SendSliderEvent(self):
         wx.PostEvent(self, numberfield_cmd_event(id=self.GetId(), value=self.cur_value))
@@ -253,7 +244,6 @@ class NumberField(wx.Control):
         values.
         """
         width, height = self.GetSize()
-
         self.anchor_point = (width/2, height/2)
         self.changing_value = True
         self.parent.SetDoubleBuffered(True)
@@ -307,11 +297,9 @@ class NumberField(wx.Control):
         self.label = label
 
     def UpdateWidget(self):
-        self.change_value += self.change_rate/3.0
+        self.change_value += self.change_rate/2.0
 
-        # Only if the floating point change value gets to the first integer value
         if self.change_value >= 1:
-
             if self.Increasing():
                 if self.cur_value < self.max_value:
                     self.cur_value += 1
@@ -343,13 +331,13 @@ class NumberField(wx.Control):
         lbl_text_w, lbl_text_h = dc.GetTextExtent(normal_label)
         val_text_w, val_text_h = dc.GetTextExtent(value_label)
 
-        totalwidth = lbl_text_w + val_text_w + self.padding_x + 76 + self.outer_padding*2
+        totalwidth = lbl_text_w + val_text_w + self.padding_x + 76
         
         # To avoid issues with drawing the control properly, we 
         # always make sure the width is an even number.
         if totalwidth % 2:
             totalwidth -= 1
-        totalheight = lbl_text_h + self.padding_y + self.outer_padding*2
+        totalheight = lbl_text_h + self.padding_y
 
         best = wx.Size(totalwidth, totalheight)
 
@@ -358,51 +346,3 @@ class NumberField(wx.Control):
         self.CacheBestSize(best)
 
         return best
-
-
-if __name__ == "__main__":
-
-    class TestAppFrame(wx.Frame):
-        def __init__(self, *args, **kwds):
-            kwds["style"] = wx.DEFAULT_FRAME_STYLE
-            wx.Frame.__init__(self, *args, **kwds)
-            self.SetSize((900, 400))
-            self.SetBackgroundColour(wx.Colour("#464646"))
-
-            sz = wx.BoxSizer(wx.VERTICAL)
-
-            ctrl1 = NumberField(self, default_value=10, label="Resolution",
-                                min_value=0, max_value=25, suffix="px")
-            ctrl2 = NumberField(self, default_value=98, label="Opacity",
-                                min_value=0, max_value=100, suffix="%")
-
-            ctrl3 = NumberField(self, default_value=0, label="Radius",
-                                min_value=0, max_value=10, suffix="", show_p=False)
-
-            ctrl4 = NumberField(self, default_value=50, label="X:",
-                                min_value=0, max_value=100, suffix="", show_p=False)
-            ctrl5 = NumberField(self, default_value=13, label="Y:",
-                                min_value=0, max_value=100, suffix="", show_p=False)
-
-            sz.Add(ctrl1, flag=wx.EXPAND | wx.BOTH, border=20)
-            sz.Add(ctrl2, flag=wx.EXPAND | wx.BOTH, border=20)
-            sz.Add(ctrl3, flag=wx.EXPAND | wx.BOTH, border=20)
-            sz.Add(ctrl4, flag=wx.EXPAND | wx.BOTH, border=20)
-            sz.Add(ctrl5, flag=wx.EXPAND | wx.BOTH, border=20)
-
-            self.Bind(EVT_NUMBERFIELD_CHANGE, self.OnFieldChange, ctrl1)
-            self.Bind(EVT_NUMBERFIELD, self.OnField, ctrl1)
-
-            self.SetSizer(sz)
-
-        def OnFieldChange(self, event):
-            print("->", event.value)
-
-        def OnField(self, event):
-            print("->", event.value)
-
-    app = wx.App(False)
-    frame = TestAppFrame(None, wx.ID_ANY, "Number Fields")
-    app.SetTopWindow(frame)
-    frame.Show()
-    app.MainLoop()
