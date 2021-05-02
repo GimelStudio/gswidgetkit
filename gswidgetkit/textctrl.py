@@ -1,13 +1,21 @@
-
+# ----------------------------------------------------------------------------
+# GS Widget Kit Copyright 2021 by Noah Rahm and contributors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ----------------------------------------------------------------------------
 
 import wx
 from wx import stc
-
-import ctypes
-try:
-    ctypes.windll.shcore.SetProcessDpiAwareness(True)
-except Exception:
-    pass
 
 
 class TextCtrl(stc.StyledTextCtrl):
@@ -44,30 +52,3 @@ class NativeTextCtrl(wx.TextCtrl):
         wx.TextCtrl.__init__(self, parent, value=value, style=style, *args, **kwargs)
         self.SetBackgroundColour(wx.Colour("#333333"))
         self.SetForegroundColour(wx.Colour("#fff"))
-
-
-if __name__ == "__main__":
-
-    class TestAppFrame(wx.Frame):
-        def __init__(self, *args, **kwds):
-            kwds["style"] = wx.DEFAULT_FRAME_STYLE
-            wx.Frame.__init__(self, *args, **kwds)
-            self.SetSize((900, 400))
-            self.SetBackgroundColour(wx.Colour("#464646"))
-
-            sz = wx.BoxSizer(wx.VERTICAL)
-
-            ctrl1 = TextCtrl(self, value="", style=wx.BORDER_SIMPLE,
-                             placeholder="", size=(-1, 24))
-            ctrl2 = NativeTextCtrl(self, size=(-1, 26))
-
-            sz.Add(ctrl1, flag=wx.EXPAND, border=20)
-            sz.Add(ctrl2, flag=wx.EXPAND, border=20)
-
-            self.SetSizer(sz)
-
-    app = wx.App(False)
-    frame = TestAppFrame(None, wx.ID_ANY, "Textctrl")
-    app.SetTopWindow(frame)
-    frame.Show()
-    app.MainLoop()
