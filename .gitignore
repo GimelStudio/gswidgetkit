@@ -2,7 +2,7 @@
 # Ignore PyPI stuff
 build
 dist
-gsnodegraph.egg-info
+gswidgetkit.egg-info
 pypi.txt
 
 # Ignore python misc.
