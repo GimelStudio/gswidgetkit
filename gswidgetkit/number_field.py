@@ -209,7 +209,7 @@ class NumberField(wx.Control):
         wx.PostEvent(self, numberfield_cmd_event(id=self.GetId(), value=self.cur_value))
 
     def SendChangeEvent(self):
-        # Implement a debounce where only one event is
+        # Implement a debounce system where only one event is
         # sent only if the value actually changed.
         if self.cur_value != self.last_sent_event:
             wx.PostEvent(self, numberfield_change_cmd_event(
@@ -247,7 +247,6 @@ class NumberField(wx.Control):
         self.anchor_point = (width/2, height/2)
         self.changing_value = True
         self.parent.SetDoubleBuffered(True)
-        self.OnHideTextCtrl(None)
         self.UpdateDrawing()
 
     def OnSetFocus(self, event):
