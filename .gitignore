@@ -7,3 +7,6 @@ pypi.txt
 
 # Ignore python misc.
 __pycache__
+
+# Ignore various files
+buffered_with_controls.py
