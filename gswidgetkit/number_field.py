@@ -41,7 +41,7 @@ class NumberField(wx.Control):
         self.control_size = wx.DefaultSize
         self.show_p = show_p
         self.buffer = None
-             
+
         if scroll_horz is True:
             self.scroll_dir = 0
         else:
@@ -69,8 +69,8 @@ class NumberField(wx.Control):
         self.anchor_point = (0, 0)
 
         # Text ctrl
-        self.textctrl = TextCtrl(self, value=str(self.cur_value), 
-                                 style=wx.BORDER_NONE, pos=(0, 0), 
+        self.textctrl = TextCtrl(self, value=str(self.cur_value),
+                                 style=wx.BORDER_NONE, pos=(0, 0),
                                  size=(10, 24))
         self.textctrl.Hide()
 
@@ -95,7 +95,7 @@ class NumberField(wx.Control):
     def OnSize(self, event):
         size = self.GetClientSize()
 
-        # Make sure size is at least 1px to avoid 
+        # Make sure size is at least 1px to avoid
         # strange "invalid bitmap size" errors.
         if size[0] < 1:
             size = (1, 1)
@@ -125,7 +125,7 @@ class NumberField(wx.Control):
 
         width = self.Size[0]
         height = self.Size[1]
-        
+
         one_val = width / self.max_value
         self.p_val = round((self.cur_value*one_val))
 
@@ -140,16 +140,16 @@ class NumberField(wx.Control):
         if self.show_p is True:
             dc.SetBrush(wx.Brush(wx.Colour("#5680C2")))
             dc.DrawRoundedRectangle(0, 0, self.p_val, height, 4)
-        
+
             if self.p_val < width-4 and self.p_val > 4:
                 dc.DrawRectangle((self.p_val)-4, 0, 4, height)
 
         lbl_w, lbl_h = GetTextExtent(self.label)
         val_w, val_h = GetTextExtent(full_val_lbl)
-        
+
         dc.DrawText(self.label, self.padding_x, int((height/2) - (lbl_h/2)))
         dc.DrawText(full_val_lbl, (width-self.padding_x) - (val_w), int((height/2) - (val_h/2)))
-        
+
         # Update position of textctrl
         self.textctrl.SetPosition((5, (int(self.Size[1]/2) - 10)))
         self.textctrl.SetSize((int(self.Size[0]-10), 24))
@@ -215,7 +215,7 @@ class NumberField(wx.Control):
             wx.PostEvent(self, numberfield_change_cmd_event(
                                     id=self.GetId(), value=self.cur_value))
             self.last_sent_event = self.cur_value
-            
+
     def Increasing(self):
         if self.delta > 0:
             return True
@@ -239,12 +239,11 @@ class NumberField(wx.Control):
 
     def OnLeftDown(self, event):
         """
-        Sets the anchor point that the cursor will go back to (the middle of the scrube label.
-        Also turns on the doublebuffering which eliminates the flickering when rapidly changing
-        values.
+        Sets the anchor point that the cursor will go back to the original position.
+        Also turns on the doublebuffering which eliminates the flickering when rapidly changing values.
         """
-        width, height = self.GetSize()
-        self.anchor_point = (width/2, height/2)
+        pos = event.GetPosition()
+        self.anchor_point = (pos[0], pos[1])
         self.changing_value = True
         self.parent.SetDoubleBuffered(True)
         self.UpdateDrawing()
@@ -280,7 +279,7 @@ class NumberField(wx.Control):
 
     def AcceptsFocus(self):
         """ Overridden base class virtual. """
-        return True        
+        return True
 
     def HasFocus(self):
         """ Returns whether or not we have the focus. """
@@ -320,7 +319,7 @@ class NumberField(wx.Control):
 
         normal_label = self.label
         value_label = str(self.cur_value)+self.suffix
-     
+
         font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
 
         dc = wx.ClientDC(self)
@@ -331,8 +330,8 @@ class NumberField(wx.Control):
         val_text_w, val_text_h = dc.GetTextExtent(value_label)
 
         totalwidth = lbl_text_w + val_text_w + self.padding_x + 76
-        
-        # To avoid issues with drawing the control properly, we 
+
+        # To avoid issues with drawing the control properly, we
         # always make sure the width is an even number.
         if totalwidth % 2:
             totalwidth -= 1
