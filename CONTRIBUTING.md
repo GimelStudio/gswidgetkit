@@ -59,8 +59,8 @@ Bugs are tracked as [GitHub issues](https://guides.github.com/features/issues/).
 
 Unsure where to begin contributing to GS widgetkit? You can start by looking through these `good-first-issue` and `help-wanted` issues:
 
-* [Good First issues](https://github.com/GimelStudio/GimelStudio/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) - issues which should only require a few lines of code and/or don't require an in-depth knowledge of the existing code.
-* [Help wanted issues](https://github.com/GimelStudio/GimelStudio/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) - issues which should be a bit more involved.
+* [Good First issues](https://github.com/GimelStudio/gswidgetkit/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) - issues which should only require a few lines of code and/or don't require an in-depth knowledge of the existing code.
+* [Help wanted issues](https://github.com/GimelStudio/gswidgetkit/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) - issues which should be a bit more involved.
 
 Both issue lists are sorted by total number of comments. While not perfect, number of comments is a reasonable proxy for impact a given change will have.
 
