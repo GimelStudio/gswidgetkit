@@ -184,7 +184,7 @@ class NumberField(wx.Control):
 
         # Case where the mouse is moving over the control, but has no
         # intent to actually change the value
-        elif self.changing_value and not event.Dragging():
+        if self.changing_value and not event.Dragging():
             self.changing_value = False
             self.parent.SetDoubleBuffered(False)
 
