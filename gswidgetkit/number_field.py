@@ -204,7 +204,7 @@ class NumberField(wx.Control):
             T4.join()
             del(T4)
         del(T1,T2,T3)
-        
+
     def OnHideTextCtrl(self, event):
         value = self.textctrl.GetValue()
         if value != " ":
@@ -283,7 +283,7 @@ class NumberField(wx.Control):
         In the event that the mouse is moved fast enough to leave the bounds of the label, this
         will be triggered, warping the cursor back to where the left click event originally
         happened
-        """
+        """ 
         if self.changing_value:
             self.WarpPointer(self.anchor_point[0], self.anchor_point[1])
         self.mouse_in = False
