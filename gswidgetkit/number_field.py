@@ -204,6 +204,7 @@ class NumberField(wx.Control):
             T4.join()
             del(T4)
         del(T1,T2,T3)
+        
     def OnHideTextCtrl(self, event):
         value = self.textctrl.GetValue()
         if value != " ":
