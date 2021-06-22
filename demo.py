@@ -22,11 +22,11 @@ try:
 except Exception:
     pass
 
-from gswidgetkit import (NumberField, EVT_NUMBERFIELD, 
+from gswidgetkit import (NumberField, EVT_NUMBERFIELD,
                          EVT_NUMBERFIELD_CHANGE, NativeTextCtrl,
                          TextCtrl, ColorPickerButton, EVT_BUTTON,
-                         Button)
-from gswidgetkit.icons import TEST_ICON
+                         Button, CheckBox)
+from gswidgetkit.icons import ICON_TEST
 
 
 class TestAppFrame(wx.Frame):
@@ -56,34 +56,37 @@ class TestAppFrame(wx.Frame):
         ctrl7 = NativeTextCtrl(self, size=(-1, 26))
 
         ctrl8 = ColorPickerButton(self, label="Background Color:")
-        ctrl9 = ColorPickerButton(self, label="Highlight Color:", 
+        ctrl9 = ColorPickerButton(self, label="Highlight Color:",
                                     default=(0, 54, 78, 215))
-        ctrl10 = ColorPickerButton(self, label="Text Color:", 
+        ctrl10 = ColorPickerButton(self, label="Text Color:",
                                     default=(255, 255, 255, 255))
 
-        ctrl11 = Button(self, label="Contrast", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+        ctrl11 = Button(self, label="Contrast",
+                        bmp=(ICON_TEST.GetBitmap(), 'left'))
         ctrl12 = Button(self, label="Render Image")
-        ctrl13 = Button(self, label="Contrast", 
-                        bmp=(TEST_ICON.GetBitmap(), 'top'))
-        ctrl14 = Button(self, label="Choose Layer", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+        ctrl13 = Button(self, label="Contrast",
+                        bmp=(ICON_TEST.GetBitmap(), 'top'))
+        ctrl14 = Button(self, label="Choose Layer",
+                        bmp=(ICON_TEST.GetBitmap(), 'left'))
 
         sz2 = wx.BoxSizer(wx.HORIZONTAL)
 
-        ctrl15 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-        ctrl16 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-        ctrl17 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
-        ctrl18 = Button(self, label="", 
-                        bmp=(TEST_ICON.GetBitmap(), 'left'))
+        ctrl15 = Button(self, label="",
+                        bmp=(ICON_TEST.GetBitmap(), 'left'))
+        ctrl16 = Button(self, label="",
+                        bmp=(ICON_TEST.GetBitmap(), 'left'))
+        ctrl17 = Button(self, label="",
+                        bmp=(ICON_TEST.GetBitmap(), 'left'))
+        ctrl18 = Button(self, label="",
+                        bmp=(ICON_TEST.GetBitmap(), 'left'))
+
+        ctrl19 = CheckBox(self, label="Auto Render")
 
         sz2.Add(ctrl15, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl16, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl17, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl18, flag=wx.EXPAND | wx.ALL, border=6)
+        sz2.Add(ctrl19, flag=wx.EXPAND | wx.ALL, border=6)
 
         sz.Add(ctrl1, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl2, flag=wx.EXPAND | wx.ALL, border=6)
