@@ -1,5 +1,23 @@
 from wx.lib.embeddedimage import PyEmbeddedImage
-# ----------------------------------------------------------------------
+#--------------------
+ICON_CHECKBOX_CHECKED = PyEmbeddedImage(
+    b'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAVJJ'
+    b'REFUOI2d0M8rg3EcwPH38x3b2hDRgyKmZn49y8pBmZLkJiQrSubiIJGd2fMc3Z3HUVHyD4jk'
+    b'DzA5uNly3IgpPGabw9Z4ahvb5/rp9f7+kOa1S78EKtBJeRMBtoQArQJM1mRUkYGOCnBupEFR'
+    b'CXM0vFNrTgFQdmDc08LuxiSBBU/5Aa8iszrlJPais3dyZwzYrVUl8ahbZn3WRTyho+6HeXr9'
+    b'/AksTjhQ/W5slsKR4b4m1qa7iSd0gqFrHhN6ficAkl9pOprt7CwrWM0mAx5yNbI518Pj6yfB'
+    b'0HX+ZEPg+CLK6dUDXa01bC8pWKpFHgd8vUUxgKl/bEUDuL1/RggJryLjbKvjQ09lcUJHO7gp'
+    b'iAEMjz46j2ISEjPedgYc9cRejB/2ZwDg8CwCwIgiF73275F82mWm0CKdfENU20piACFBtODi'
+    b'HxgIizRoxSKlJme0b6+FcOtiAVh9AAAAAElFTkSuQmCC')
+
+#----------------------------------------------------------------------
+ICON_CHECKBOX_UNCHECKED = PyEmbeddedImage(
+    b'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAFpJ'
+    b'REFUOI3tzDERgDAQBdH9wQAOoKS6wVBmsIACIgkrOCBGcrS0IQ1Ftn+rGONWSjkkzVTk7rek'
+    b'fTCzsxYDSBqBJQBTLX61hgYMQB/0wX8GucFfQVL6OMlAegBdmw/j71Be5wAAAABJRU5ErkJg'
+    b'gg==')
+
+#----------------------------------------------------------------------
 ICON_BRUSH_CHECKERBOARD = PyEmbeddedImage(
     b'iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAABhGlDQ1BJQ0MgcHJvZmlsZQAA'
     b'KJF9kT1Iw0AcxV9TRdGKoB1EFDJUJwuioo5SxSJYKG2FVh1MLv2CJg1Jiouj4Fpw8GOx6uDi'
@@ -16,17 +34,28 @@ ICON_BRUSH_CHECKERBOARD = PyEmbeddedImage(
     b'Onq+67K8ISxYsGAJLFiw+g1eR893XZY3hAULFiyBBQtWv8Hr6Pmuy/KGsGDBgiWwYMHqN3gd'
     b'Pd91Wd4QFixYsAQWLFj9Bq+j57suyxvCggULlsCCBaueG25olQy7PmyzAAAAAElFTkSuQmCC')
 
-TEST_ICON = PyEmbeddedImage(
-    b'iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAA7DAAAOwwHHb6hk'
-    b'AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAhdJREFUOI29kjFIVWEU'
-    b'x8/1vQyTt4gEgluRWpOLNkY4RBi6vNVJos2hMQcTApcGJyGdanOWQIxwarKthApsyKmH4Xd+'
-    b'574X4X2n5TwQvS/IoAMH7j3nf/7f+f+/T+R/h5lNAfvAvplNXZio2WwOA5uAA3mkA5vNZnO4'
-    b'21zP2YK7XzKzhaIo9kWknmXZVrVavVWpVG64+ysRqRdF8QlYcvfLf9wKuAN8iE2+pJTul2Du'
-    b'Ah8D89nM7pWSmdlGgApg0d17ux3s7r3AYmDdzDbOSW6321sichi1WVUd70YYvdnAHsZs6clX'
-    b'gCXgJ9BW1ZfA1U4/pTQArAInwC9gtdFo1LqR9eR5PhQbjAI7YcER8CjyKGo7qjoqIpLn+ZC7'
-    b'n7tcMbMtoAUsu3ufiAhQB74Ficd3PRboA5aBlpmdl5xSmgD2wuQDVZ2JwX4zWzGzFXfvDwUz'
-    b'ZnYQh+yllCa6yk4pzQHfA/ymI01E5Pj4+FooceCHmS24e6UbWS8wFhsMAuvxLFrA08hW1NZV'
-    b'dTBsGSt9Yqq6G+C1lNJA2DDZseGUvMlTN74GFKq6W0Y4AmzHYENV5929x917Orfc+VfVeaAR'
-    b'2G1VHSmVHcQPzOxrgN+nlG53enmejwPvoneYUpo7O5918bMfeJJl2WMRqYrIi2g9FJETd39e'
-    b'q9WeZVmWd92sLFJK11X19SkP3wI3/4qkLFR1WlWn/5noIvEbmI1a498Rgl4AAAAASUVORK5C'
-    b'YII=')
+#----------------------------------------------------------------------
+ICON_CHECKBOX_CHECKED = PyEmbeddedImage(
+    b'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAVJJ'
+    b'REFUOI2d0M8rg3EcwPH38x3b2hDRgyKmZn49y8pBmZLkJiQrSubiIJGd2fMc3Z3HUVHyD4jk'
+    b'DzA5uNly3IgpPGabw9Z4ahvb5/rp9f7+kOa1S78EKtBJeRMBtoQArQJM1mRUkYGOCnBupEFR'
+    b'CXM0vFNrTgFQdmDc08LuxiSBBU/5Aa8iszrlJPais3dyZwzYrVUl8ahbZn3WRTyho+6HeXr9'
+    b'/AksTjhQ/W5slsKR4b4m1qa7iSd0gqFrHhN6ficAkl9pOprt7CwrWM0mAx5yNbI518Pj6yfB'
+    b'0HX+ZEPg+CLK6dUDXa01bC8pWKpFHgd8vUUxgKl/bEUDuL1/RggJryLjbKvjQ09lcUJHO7gp'
+    b'iAEMjz46j2ISEjPedgYc9cRejB/2ZwDg8CwCwIgiF73275F82mWm0CKdfENU20piACFBtODi'
+    b'HxgIizRoxSKlJme0b6+FcOtiAVh9AAAAAElFTkSuQmCC')
+
+#----------------------------------------------------------------------
+ICON_CHECKBOX_UNCHECKED = PyEmbeddedImage(
+    b'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABHNCSVQICAgIfAhkiAAAAFpJ'
+    b'REFUOI3tzDERgDAQBdH9wQAOoKS6wVBmsIACIgkrOCBGcrS0IQ1Ftn+rGONWSjkkzVTk7rek'
+    b'fTCzsxYDSBqBJQBTLX61hgYMQB/0wX8GucFfQVL6OMlAegBdmw/j71Be5wAAAABJRU5ErkJg'
+    b'gg==')
+
+#----------------------------------------------------------------------
+ICON_TEST = PyEmbeddedImage(
+    b'iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAiElEQVQ4jc3TTQ2AMAyG4UlA'
+    b'wiQgYRKQgJQ5QAoSkIAUJLwcGFB+Gmi58CU7bFmetM0Wwi8D1MDgWD2QJJRZYoUA8gVydKJD'
+    b'QFX23VeoYU/7BYrlwrQOEkjAeBjsEyTOokAmUWUyQQpywN5WpCEb9gi9QGTUYVuQe8iBqJAV'
+    b'uUDeTztwelv/yQyApInJjM1FvwAAAABJRU5ErkJggg==')
+
