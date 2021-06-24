@@ -16,7 +16,6 @@
 
 import wx
 from wx.lib.newevent import NewCommandEvent
-import threading
 from .textctrl import TextCtrl
 
 numberfield_cmd_event, EVT_NUMBERFIELD = NewCommandEvent()
@@ -150,12 +149,12 @@ class NumberField(wx.Control):
         self.textctrl.SetSize((int(self.Size[0]-10), 24))
         self.textctrl.SetCurrentPos(len(str(self.cur_value)))
 
-    def updateDelta(self,event):
-        # Calculate the change in mouse position
-        cur_point = event.GetPosition()
-        self.delta = cur_point[self.scroll_dir] - self.anchor_point[self.scroll_dir]
-    def updateDragging(self,event):
-        self.dragging = event.Dragging()
+    # def updateDelta(self,event):
+    #     # Calculate the change in mouse position
+    #     cur_point = event.GetPosition()
+    #     self.delta = cur_point[self.scroll_dir] - self.anchor_point[self.scroll_dir]
+    # def updateDragging(self,event):
+    #     self.dragging = event.Dragging()
 
     def OnMouseMotion(self, event):
         """
@@ -166,34 +165,44 @@ class NumberField(wx.Control):
         """
         # Changes the cursor
         if self.changing_value:
-            T1 = threading.Thread(target=self.SetCursor,args=(wx.Cursor(wx.CURSOR_BLANK),))
+            self.SetCursor(wx.Cursor(wx.CURSOR_BLANK))
         else:
-            T1 = threading.Thread(target=self.SetCursor,args=(wx.Cursor(wx.CURSOR_SIZEWE),))
+            self.SetCursor(wx.Cursor(wx.CURSOR_SIZEWE))
 
-        T2 = threading.Thread(target=self.updateDelta,args=(event,))
-        T3 = threading.Thread(target=self.updateDragging,args=(event,))
-        T1.start()
-        T2.start()
-        T3.start()
-        T2.join()
-        T1.join()
-        T3.join()
+        # Calculate the change in mouse position
+        cur_point = event.GetPosition()
+        self.delta = cur_point[self.scroll_dir] - self.anchor_point[self.scroll_dir]
+
+        # T2 = threading.Thread(target=self.updateDelta,args=(event,))
+        # T3 = threading.Thread(target=self.updateDragging,args=(event,))
+        # T1.start()
+        # T2.start()
+        # T3.start()
+        # T2.join()
+        # T1.join()
+        # T3.join()
         # If the cursor is being moved and dragged left or right
-        if self.delta != 0 and self.dragging and self.changing_value:
+        if self.delta != 0 and event.Dragging() and self.changing_value:
             #T4 = threading.Thread(target=self.UpdateWidget)
             self.UpdateWidget()
             #T5 = threading.Thread(target=self.UpdateDrawing)
             self.UpdateDrawing()
 
+        if event.Dragging() and self.changing_value:
+            self.SetCursor(wx.Cursor(wx.CURSOR_BLANK))
+            # Set the cursor back to the original point so it doesn't run away
+            if 'wxMac' not in wx.PlatformInfo:
+                self.WarpPointer(int(self.anchor_point[0]), int(self.anchor_point[1]))
+
         # Case where the mouse is moving over the control, but has no
         # intent to actually change the value
-        if self.changing_value and not self.dragging:
+        if self.changing_value and not event.Dragging():
             self.changing_value = False
-            T4 = threading.Thread(target=self.parent.SetDoubleBuffered,args=(False,))
-            T4.start()
-            T4.join()
-            del(T4)
-        del(T1,T2,T3)
+            self.parent.SetDoubleBuffered(False)
+        #     T4.start()
+        #     T4.join()
+        #     del(T4)
+        # del(T1,T2,T3)
 
     def OnHideTextCtrl(self, event):
         value = self.textctrl.GetValue()
@@ -273,7 +282,7 @@ class NumberField(wx.Control):
         In the event that the mouse is moved fast enough to leave the bounds of the label, this
         will be triggered, warping the cursor back to where the left click event originally
         happened
-        """ 
+        """
         if self.changing_value:
             self.WarpPointer(self.anchor_point[0], self.anchor_point[1])
         self.mouse_in = False
