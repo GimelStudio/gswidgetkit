@@ -103,14 +103,9 @@ class NumberField(wx.Control):
         self.UpdateDrawing()
 
     def UpdateDrawing(self):
-        dc = wx.MemoryDC()
-        dc.SelectObject(self.buffer)
-        dc = wx.GCDC(dc)
+        dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
         self.OnDrawBackground(dc)
         self.OnDrawWidget(dc)
-        del dc  # need to get rid of the MemoryDC before Update() is called.
-        self.Refresh()
-        self.Update()
 
     def OnDrawBackground(self, dc):
         dc.SetBackground(wx.Brush(self.parent.GetBackgroundColour()))
@@ -190,11 +185,6 @@ class NumberField(wx.Control):
             #T5 = threading.Thread(target=self.UpdateDrawing)
             self.UpdateDrawing()
 
-        if self.dragging and self.changing_value:
-            T4 = threading.Thread(target=self.SetCursor,args=(wx.Cursor(wx.CURSOR_BLANK),))
-            """ I removed this part because it was causing a bug
-            # Set the cursor back to the original point so it doesn't run away
-            #T5 = threading.Thread(target=self.WarpPointer,args=(int(self.anchor_point[0]), int(self.anchor_point[1])))"""
         # Case where the mouse is moving over the control, but has no
         # intent to actually change the value
         if self.changing_value and not self.dragging:
