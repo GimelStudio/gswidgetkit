@@ -13,3 +13,4 @@ __pycache__
 
 # Ignore various files
 buffered_with_controls.py
+image_picker.py
