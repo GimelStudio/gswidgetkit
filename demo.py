@@ -25,7 +25,7 @@ except Exception:
 from gswidgetkit import (NumberField, EVT_NUMBERFIELD,
                          EVT_NUMBERFIELD_CHANGE, NativeTextCtrl,
                          TextCtrl, ColorPickerButton, EVT_BUTTON,
-                         Button, CheckBox)
+                         Button, CheckBox, ToolTip)
 from gswidgetkit.icons import ICON_TEST
 
 
@@ -63,6 +63,9 @@ class TestAppFrame(wx.Frame):
 
         ctrl11 = Button(self, label="Contrast",
                         bmp=(ICON_TEST.GetBitmap(), 'left'))
+        ToolTip("Contrast", """Adjusts the degree of difference between the lightest
+and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
+
         ctrl12 = Button(self, label="Render Image")
         ctrl13 = Button(self, label="Contrast",
                         bmp=(ICON_TEST.GetBitmap(), 'top'))

@@ -21,8 +21,8 @@ button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 
 class Button(wx.Control):
-    def __init__(self, parent, id=wx.ID_ANY, label="", bmp=None, center=True, 
-                flat=False, pos=wx.DefaultPosition, size=wx.DefaultSize, 
+    def __init__(self, parent, id=wx.ID_ANY, label="", bmp=None, center=True,
+                flat=False, pos=wx.DefaultPosition, size=wx.DefaultSize,
                 style=wx.NO_BORDER, *args, **kwargs):
         wx.Control.__init__(self, parent, id, pos, size, style, *args, **kwargs)
 
@@ -36,7 +36,7 @@ class Button(wx.Control):
             # Icon button
             self.label = label
             self.padding = (5, 6, 5, 6)
-              
+
         self.buffer = None
         self.center = center
         self.flat = flat

@@ -4,3 +4,4 @@ from .buttons import Button, EVT_BUTTON
 from .color_picker import ColorPickerButton
 from .textctrl import TextCtrl, NativeTextCtrl
 from .checkbox import CheckBox
+from .tooltip import ToolTip
