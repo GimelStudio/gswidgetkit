@@ -18,15 +18,10 @@ import wx
 from wx.lib.newevent import NewCommandEvent
 
 from .textctrl import TextCtrl
+from .utils import GetTextExtent
 
 numberfield_cmd_event, EVT_NUMBERFIELD = NewCommandEvent()
 numberfield_change_cmd_event, EVT_NUMBERFIELD_CHANGE = NewCommandEvent()
-
-
-def GetTextExtent(text):
-    tdc = wx.WindowDC(wx.GetApp().GetTopWindow())
-    w, h = tdc.GetTextExtent(text)
-    return w, h
 
 
 class NumberField(wx.Control):

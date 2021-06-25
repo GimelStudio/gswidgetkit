@@ -25,7 +25,7 @@ except Exception:
 from gswidgetkit import (NumberField, EVT_NUMBERFIELD,
                          EVT_NUMBERFIELD_CHANGE, NativeTextCtrl,
                          TextCtrl, ColorPickerButton, EVT_BUTTON,
-                         Button, CheckBox, ToolTip)
+                         Button, CheckBox, ToolTip, DropDown, EVT_DROPDOWN)
 from gswidgetkit.icons import ICON_TEST
 
 
@@ -85,11 +85,14 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
 
         ctrl19 = CheckBox(self, label="Auto Render")
 
+        ctrl20 = DropDown(self, items=["SCREEN", "ADD", "MULTIPLY"], default="ADD")
+
         sz2.Add(ctrl15, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl16, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl17, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl18, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl19, flag=wx.EXPAND | wx.ALL, border=6)
+        sz2.Add(ctrl20, flag=wx.EXPAND | wx.ALL, border=6)
 
         sz.Add(ctrl1, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl2, flag=wx.EXPAND | wx.ALL, border=6)
@@ -120,6 +123,7 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
         self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl12)
         self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl13)
         self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl14)
+        self.Bind(EVT_DROPDOWN, self.OnDropdown, ctrl20)
 
 
     def OnFieldChange(self, event):
@@ -133,6 +137,9 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
 
     def OnButtonClick(self, event):
         print("Button clicked: ", event.GetId())
+
+    def OnDropdown(self, event):
+        print("->", event.value)
 
 
 if __name__ == "__main__":
