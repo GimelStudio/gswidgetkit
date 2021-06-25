@@ -16,6 +16,7 @@
 
 import wx
 from wx.lib.newevent import NewCommandEvent
+
 from .textctrl import TextCtrl
 
 numberfield_cmd_event, EVT_NUMBERFIELD = NewCommandEvent()
@@ -40,7 +41,7 @@ class NumberField(wx.Control):
         self.control_size = wx.DefaultSize
         self.show_p = show_p
         self.buffer = None
-        self.dragging = False
+
         if scroll_horz is True:
             self.scroll_dir = 0
         else:
@@ -149,13 +150,6 @@ class NumberField(wx.Control):
         self.textctrl.SetSize((int(self.Size[0]-10), 24))
         self.textctrl.SetCurrentPos(len(str(self.cur_value)))
 
-    # def updateDelta(self,event):
-    #     # Calculate the change in mouse position
-    #     cur_point = event.GetPosition()
-    #     self.delta = cur_point[self.scroll_dir] - self.anchor_point[self.scroll_dir]
-    # def updateDragging(self,event):
-    #     self.dragging = event.Dragging()
-
     def OnMouseMotion(self, event):
         """
         When the mouse moves, it check to see if it is a drag, or if left down had happened.
@@ -173,19 +167,9 @@ class NumberField(wx.Control):
         cur_point = event.GetPosition()
         self.delta = cur_point[self.scroll_dir] - self.anchor_point[self.scroll_dir]
 
-        # T2 = threading.Thread(target=self.updateDelta,args=(event,))
-        # T3 = threading.Thread(target=self.updateDragging,args=(event,))
-        # T1.start()
-        # T2.start()
-        # T3.start()
-        # T2.join()
-        # T1.join()
-        # T3.join()
         # If the cursor is being moved and dragged left or right
         if self.delta != 0 and event.Dragging() and self.changing_value:
-            #T4 = threading.Thread(target=self.UpdateWidget)
             self.UpdateWidget()
-            #T5 = threading.Thread(target=self.UpdateDrawing)
             self.UpdateDrawing()
 
         if event.Dragging() and self.changing_value:
@@ -199,10 +183,6 @@ class NumberField(wx.Control):
         if self.changing_value and not event.Dragging():
             self.changing_value = False
             self.parent.SetDoubleBuffered(False)
-        #     T4.start()
-        #     T4.join()
-        #     del(T4)
-        # del(T1,T2,T3)
 
     def OnHideTextCtrl(self, event):
         value = self.textctrl.GetValue()
