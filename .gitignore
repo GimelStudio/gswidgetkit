@@ -13,3 +13,5 @@ __pycache__
 
 # Ignore various files
 buffered_with_controls.py
+env
+.DS_Store

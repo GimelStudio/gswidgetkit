@@ -103,14 +103,9 @@ class NumberField(wx.Control):
         self.UpdateDrawing()
 
     def UpdateDrawing(self):
-        dc = wx.MemoryDC()
-        dc.SelectObject(self.buffer)
-        dc = wx.GCDC(dc)
+        dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
         self.OnDrawBackground(dc)
         self.OnDrawWidget(dc)
-        del dc  # need to get rid of the MemoryDC before Update() is called.
-        self.Refresh()
-        self.Update()
 
     def OnDrawBackground(self, dc):
         dc.SetBackground(wx.Brush(self.parent.GetBackgroundColour()))
@@ -180,7 +175,8 @@ class NumberField(wx.Control):
         if event.Dragging() and self.changing_value:
             self.SetCursor(wx.Cursor(wx.CURSOR_BLANK))
             # Set the cursor back to the original point so it doesn't run away
-            self.WarpPointer(int(self.anchor_point[0]), int(self.anchor_point[1]))
+            if 'wxMac' not in wx.PlatformInfo:
+                self.WarpPointer(int(self.anchor_point[0]), int(self.anchor_point[1]))
 
         # Case where the mouse is moving over the control, but has no
         # intent to actually change the value
