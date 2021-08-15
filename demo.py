@@ -82,6 +82,8 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
                         bmp=(ICON_TEST.GetBitmap(), 'left'))
         ctrl18 = Button(self, label="",
                         bmp=(ICON_TEST.GetBitmap(), 'left'))
+        ctrl18.SetHighlighted(True)
+
 
         ctrl19 = CheckBox(self, label="Auto Render")
 
