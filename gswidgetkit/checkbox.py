@@ -99,7 +99,8 @@ class CheckBox(wx.Control):
             "CheckedEnable": _GetCheckedBitmap(self),
             "UnCheckedEnable": _GetNotCheckedBitmap(self),
             "CheckedDisable": _GetCheckedImage(self).ConvertToDisabled().ConvertToBitmap(),
-            "UnCheckedDisable": _GetNotCheckedImage(self).ConvertToDisabled().ConvertToBitmap()}
+            "UnCheckedDisable": _GetNotCheckedImage(self).ConvertToDisabled().ConvertToBitmap()
+            }
 
     def InitializeColours(self):
         """ Initializes the focus indicator pen. """

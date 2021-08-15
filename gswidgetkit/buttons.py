@@ -47,6 +47,7 @@ class Button(wx.Control):
         self.mouse_in = False
         self.mouse_down = False
         self.focused = False
+        self.highlighted = False
 
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
@@ -92,7 +93,7 @@ class Button(wx.Control):
 
         w, h = self.GetSize()
 
-        if self.mouse_down:
+        if self.mouse_down or self.highlighted:
             dc.SetBrush(wx.Brush(wx.Colour("#5680C2")))
 
         elif self.mouse_in:
@@ -240,6 +241,9 @@ class Button(wx.Control):
 
     def SendButtonEvent(self):
         wx.PostEvent(self, button_cmd_event(id=self.GetId(), value=0))
+
+    def SetHighlighted(self, highlighted=True):
+        self.highlighted = highlighted
 
     def DoGetBestSize(self):
         font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
