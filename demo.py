@@ -44,22 +44,25 @@ class TestAppFrame(wx.Frame):
                             min_value=0, max_value=100, suffix="%")
 
         ctrl3 = NumberField(self, default_value=0, label="Radius",
-                            min_value=0, max_value=10, suffix="", show_p=False)
+                            min_value=0, max_value=10, suffix="",
+                            show_p=False)
 
         ctrl4 = NumberField(self, default_value=50, label="X:",
-                            min_value=0, max_value=100, suffix="", show_p=False)
+                            min_value=0, max_value=100, suffix="",
+                            show_p=False)
         ctrl5 = NumberField(self, default_value=13, label="Y:",
-                            min_value=0, max_value=100, suffix="", show_p=False)
+                            min_value=0, max_value=100, suffix="",
+                            show_p=False)
 
         ctrl6 = TextCtrl(self, value="", style=wx.BORDER_SIMPLE,
-                            placeholder="", size=(-1, 24))
+                         placeholder="", size=(-1, 24))
         ctrl7 = NativeTextCtrl(self, size=(-1, 26))
 
         ctrl8 = ColorPickerButton(self, label="Background Color:")
         ctrl9 = ColorPickerButton(self, label="Highlight Color:",
-                                    default=(0, 54, 78, 215))
+                                  default=(0, 54, 78, 215))
         ctrl10 = ColorPickerButton(self, label="Text Color:",
-                                    default=(255, 255, 255, 255))
+                                   default=(255, 255, 255, 255))
 
         ctrl11 = Button(self, label="Contrast",
                         bmp=(ICON_TEST.GetBitmap(), 'left'))
