@@ -244,7 +244,10 @@ class Button(wx.Control):
 
     def SetHighlighted(self, highlighted=True):
         self.highlighted = highlighted
-        self.UpdateDrawing()
+        try:
+            self.UpdateDrawing()
+        except Exception:
+            pass
 
     def DoGetBestSize(self):
         font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
