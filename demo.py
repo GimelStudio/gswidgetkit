@@ -22,7 +22,7 @@ try:
 except Exception:
     pass
 
-from gswidgetkit import (NumberField, EVT_NUMBERFIELD,
+from gswidgetkit import (NumberField, EVT_NUMBERFIELD, Label,
                          EVT_NUMBERFIELD_CHANGE, NativeTextCtrl,
                          TextCtrl, ColorPickerButton, EVT_BUTTON,
                          Button, CheckBox, ToolTip, DropDown, EVT_DROPDOWN)
@@ -84,10 +84,11 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
                         bmp=(ICON_TEST.GetBitmap(), 'left'))
         ctrl18.SetHighlighted(True)
 
-
         ctrl19 = CheckBox(self, label="Auto Render")
 
         ctrl20 = DropDown(self, items=["SCREEN", "ADD", "MULTIPLY"], default="ADD")
+
+        ctrl21 = Label(self, label="This is a label", color="#ccc", font_bold=True)
 
         sz2.Add(ctrl15, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl16, flag=wx.EXPAND | wx.ALL, border=6)
@@ -95,6 +96,8 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
         sz2.Add(ctrl18, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl19, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl20, flag=wx.EXPAND | wx.ALL, border=6)
+
+        sz2.Add(ctrl21, flag=wx.EXPAND | wx.ALL, border=6)
 
         sz.Add(ctrl1, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl2, flag=wx.EXPAND | wx.ALL, border=6)

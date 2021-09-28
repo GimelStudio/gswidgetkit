@@ -6,4 +6,5 @@ from .textctrl import TextCtrl, NativeTextCtrl
 from .checkbox import CheckBox
 from .tooltip import ToolTip
 from .dropdown import DropDown, EVT_DROPDOWN
+from .label import Label
 from .utils import GetTextExtent

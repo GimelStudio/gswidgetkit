@@ -14,7 +14,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-import  wx
+import wx
 import wx.lib.agw.flatmenu as flatmenu
 from wx.lib.newevent import NewCommandEvent
 
