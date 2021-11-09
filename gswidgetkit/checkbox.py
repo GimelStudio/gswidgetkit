@@ -19,7 +19,8 @@
 # ----------------------------------------------------------------------------
 
 import wx
-from .icons import ICON_CHECKBOX_CHECKED, ICON_CHECKBOX_UNCHECKED
+from .icons import (ICON_CHECKBOX_CHECKED, ICON_CHECKBOX_UNCHECKED,
+                    ICON_CHECKBOX_FOCUSED)
 
 
 class CheckBox(wx.Control):
@@ -97,8 +98,10 @@ class CheckBox(wx.Control):
 
         self._bitmaps = {
             "CheckedEnable": _GetCheckedBitmap(self),
+            "FocusedEnable": _GetFocusedBitmap(self),
             "UnCheckedEnable": _GetNotCheckedBitmap(self),
             "CheckedDisable": _GetCheckedImage(self).ConvertToDisabled().ConvertToBitmap(),
+            "FocusedDisable": _GetFocusedImage(self).ConvertToDisabled().ConvertToBitmap(),
             "UnCheckedDisable": _GetNotCheckedImage(self).ConvertToDisabled().ConvertToBitmap()
             }
 
@@ -106,9 +109,6 @@ class CheckBox(wx.Control):
         """ Initializes the focus indicator pen. """
 
         textClr = self.GetForegroundColour()
-        self._focusIndPen = wx.Pen(textClr, 1, wx.USER_DASH)
-        self._focusIndPen.SetDashes([1, 1])
-        self._focusIndPen.SetCap(wx.CAP_BUTT)
         self.SYS_COLOUR_GRAYTEXT = wx.SystemSettings.GetColour(wx.SYS_COLOUR_GRAYTEXT)
 
     def GetBitmap(self):
@@ -122,6 +122,8 @@ class CheckBox(wx.Control):
             if self.IsChecked():
                 # We are Checked.
                 return self._bitmaps["CheckedEnable"]
+            elif self.HasFocus():
+                return self._bitmaps["FocusedEnable"]
             else:
                 # We are UnChecked.
                 return self._bitmaps["UnCheckedEnable"]
@@ -129,6 +131,8 @@ class CheckBox(wx.Control):
             # Poor GenCheckBox, Disabled and ignored!
             if self.IsChecked():
                 return self._bitmaps["CheckedDisable"]
+            elif self.HasFocus():
+                return self._bitmaps["FocusedDisable"]
             else:
                 return self._bitmaps["UnCheckedDisable"]
 
@@ -468,14 +472,9 @@ class CheckBox(wx.Control):
         dc.DrawText(label, textXpos, textYpos)
 
         # Let's see if we have keyboard focus and, if this is the case,
-        # we draw a dotted rectangle around the text (Windows behavior,
-        # I don't know on other platforms...).
+        # we draw it a little lighter.
         if self.HasFocus():
-            # Yes, we are focused! So, now, use a transparent brush with
-            # a dotted black pen to draw a rectangle around the text.
-            dc.SetBrush(wx.TRANSPARENT_BRUSH)
-            dc.SetPen(self._focusIndPen)
-            dc.DrawRectangle(textXpos, textYpos, textWidth, textHeight)
+            dc.DrawBitmap(bitmap, bitmapXpos, bitmapYpos, True)
 
     def OnMouseClick(self, event):
         """
@@ -546,6 +545,12 @@ def _GetCheckedBitmap(self):
 
 def _GetCheckedImage(self):
     return _GetCheckedBitmap(self).ConvertToImage()
+
+def _GetFocusedBitmap(self):
+    return ICON_CHECKBOX_FOCUSED.GetBitmap()
+
+def _GetFocusedImage(self):
+    return _GetFocusedBitmap(self).ConvertToImage()
 
 def _GetNotCheckedBitmap(self):
     return ICON_CHECKBOX_UNCHECKED.GetBitmap()
