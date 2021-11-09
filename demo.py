@@ -93,7 +93,8 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
 
         sz3 = wx.BoxSizer(wx.HORIZONTAL)
         
-        ctrl22 = TextCtrl(self, default="hello", size=(-1, 28))
+        ctrl22 = TextCtrl(self, default="hello", icon=ICON_TEST.GetBitmap(),
+                          size=(-1, 28))
 
         sz2.Add(ctrl15, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl16, flag=wx.EXPAND | wx.ALL, border=6)

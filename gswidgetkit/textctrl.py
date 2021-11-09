@@ -130,11 +130,20 @@ class TextCtrl(wx.Control):
             self.textctrl.StyleSetBackground(stc.STC_STYLE_DEFAULT, wx.Colour("#222222"))
         dc.DrawRoundedRectangle(1, 1, width-1, height-1, 4)
 
+        if self.icon != None:
+            dc.DrawBitmap(self.icon, 8, int(self.Size[1]/2) - 8)
+
         # Update position of textctrl
-        self.textctrl.SetPosition((2, (int(self.Size[1]/2) - 10)))
-        self.textctrl.SetSize((int(self.Size[0]-4), 20))
-        self.textctrl.SetCurrentPos(len(str(self.value)))
-        self.textctrl.SelectNone()
+        if self.icon == None:
+            self.textctrl.SetPosition((2, (int(self.Size[1]/2) - 10)))
+            self.textctrl.SetSize((int(self.Size[0]-4), 20))
+            self.textctrl.SetCurrentPos(len(str(self.value)))
+            self.textctrl.SelectNone()
+        else:
+            self.textctrl.SetPosition((25, (int(self.Size[1]/2) - 10)))
+            self.textctrl.SetSize((int(self.Size[0]-26), 20))
+            self.textctrl.SetCurrentPos(len(str(self.value)))
+            self.textctrl.SelectNone()
 
     def OnLeftDown(self, event):
         self.mouse_in = True
