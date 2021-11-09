@@ -18,15 +18,16 @@ import wx
 from wx import stc
 
 
-class TextCtrl(stc.StyledTextCtrl):
-    def __init__(self, parent, value="", placeholder="", scrollbar=False, style=0, *args, **kwargs):
+class StyledTextCtrl(stc.StyledTextCtrl):
+    def __init__(self, parent, value="", placeholder="", scrollbar=False,
+                 style=0, bg_color="#333333", sel_color="#5680C2", *args, **kwargs):
         stc.StyledTextCtrl.__init__(self, parent, style=style | wx.TRANSPARENT_WINDOW, *args, **kwargs)
 
         if scrollbar is False:
             self.SetUseVerticalScrollBar(False)
             self.SetUseHorizontalScrollBar(False)
         self.SetCaretWidth(2)
-        self.SetCaretForeground("#5680c2")
+        self.SetCaretForeground(sel_color)
         self.SetMarginLeft(8)
         self.SetMarginRight(8)
         self.SetMarginWidth(1, 0)
@@ -38,10 +39,10 @@ class TextCtrl(stc.StyledTextCtrl):
         self.SetValue(value)
         self.SetScrollWidth(self.GetSize()[0])
         self.SetScrollWidthTracking(True)
-        self.SetSelBackground(True, "#242424")
-        self.StyleSetBackground(stc.STC_STYLE_DEFAULT, wx.Colour("#333333"))
+        self.SetSelBackground(True, sel_color)
+        self.StyleSetBackground(stc.STC_STYLE_DEFAULT, wx.Colour(bg_color))
         self.StyleSetForeground(stc.STC_STYLE_DEFAULT, wx.Colour("#ffffff"))
-        self.StyleSetFont(stc.STC_STYLE_DEFAULT, 
+        self.StyleSetFont(stc.STC_STYLE_DEFAULT,
                           wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT))
         self.StyleClearAll()
         self.SetValue(value)
@@ -52,3 +53,149 @@ class NativeTextCtrl(wx.TextCtrl):
         wx.TextCtrl.__init__(self, parent, value=value, style=style, *args, **kwargs)
         self.SetBackgroundColour(wx.Colour("#333333"))
         self.SetForegroundColour(wx.Colour("#fff"))
+
+
+class TextCtrl(wx.Control):
+    def __init__(self, parent, default="", icon=None, size=wx.DefaultSize):
+        wx.Control.__init__(self, parent, wx.ID_ANY, pos=wx.DefaultPosition,
+                            size=size, style=wx.NO_BORDER)
+
+        self.parent = parent
+        self.focused = False
+        self.mouse_in = False
+        self.control_size = wx.DefaultSize
+        self.buffer = None
+
+        self.value = default
+        self.icon = icon
+
+        self.padding_x = 20
+        self.padding_y = 30
+
+        # Inner text ctrl
+        self.textctrl = StyledTextCtrl(self, value=str(self.value),
+                                       style=wx.BORDER_NONE, bg_color="#222222",
+                                       sel_color="#5680C2", pos=(0, 0), size=(10, 24))
+
+        self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnMouseLeave)
+        self.textctrl.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
+
+        self.Bind(wx.EVT_PAINT, self.OnPaint)
+        self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
+        self.Bind(wx.EVT_SIZE, self.OnSize)
+
+    def OnPaint(self, event):
+        wx.BufferedPaintDC(self, self.buffer)
+
+    def OnSize(self, event):
+        size = self.GetClientSize()
+
+        # Make sure size is at least 1px to avoid
+        # strange "invalid bitmap size" errors.
+        if size[0] < 1:
+            size = (1, 1)
+        self.buffer = wx.Bitmap(*size)
+        self.UpdateDrawing()
+
+    def UpdateDrawing(self):
+        dc = wx.MemoryDC()
+        dc.SelectObject(self.buffer)
+        dc = wx.GCDC(dc)
+        self.OnDrawBackground(dc)
+        self.OnDrawWidget(dc)
+        del dc  # need to get rid of the MemoryDC before Update() is called.
+        self.Refresh()
+        self.Update()
+
+    def OnDrawBackground(self, dc):
+        dc.SetBackground(wx.Brush(self.parent.GetBackgroundColour()))
+        dc.Clear()
+
+    def OnDrawWidget(self, dc):
+        fnt = self.parent.GetFont()
+        dc.SetFont(fnt)
+
+        width = self.Size[0]
+        height = self.Size[1]
+
+        if self.mouse_in:
+            dc.SetTextForeground("#ffffff")
+            dc.SetPen(wx.Pen(wx.Colour("#5680C2"), 1))
+            dc.SetBrush(wx.Brush(wx.Colour("#333333")))
+            self.textctrl.StyleSetBackground(stc.STC_STYLE_DEFAULT, wx.Colour("#333333"))
+        else:
+            dc.SetTextForeground("#e9e9e9")
+            dc.SetPen(wx.Pen(wx.Colour("#333333"), 1))
+            dc.SetBrush(wx.Brush(wx.Colour("#222222")))
+            self.textctrl.StyleSetBackground(stc.STC_STYLE_DEFAULT, wx.Colour("#222222"))
+        dc.DrawRoundedRectangle(1, 1, width-1, height-1, 4)
+
+        # Update position of textctrl
+        self.textctrl.SetPosition((2, (int(self.Size[1]/2) - 10)))
+        self.textctrl.SetSize((int(self.Size[0]-4), 20))
+        self.textctrl.SetCurrentPos(len(str(self.value)))
+        self.textctrl.SelectNone()
+
+    def OnLeftDown(self, event):
+        self.mouse_in = True
+        self.UpdateDrawing()
+
+    def OnSetFocus(self, event):
+        self.focused = True
+        self.textctrl.SetFocus()
+        self.Refresh()
+
+    def OnKillFocus(self, event):
+        self.focused = False
+        self.Refresh()
+
+    def OnMouseEnter(self, event):
+        self.mouse_in = True
+        self.Refresh()
+        self.UpdateDrawing()
+
+    def OnMouseLeave(self, event):
+        self.mouse_in = False
+        self.Refresh()
+        self.UpdateDrawing()
+
+    def AcceptsFocusFromKeyboard(self):
+        """Overridden base class virtual."""
+        return True
+
+    def AcceptsFocus(self):
+        """ Overridden base class virtual. """
+        return True
+
+    def HasFocus(self):
+        """ Returns whether or not we have the focus. """
+        return self.focused
+
+    def GetValue(self):
+        return self.value
+
+    def SetValue(self, value):
+        self.value = value
+
+    def SetIcon(self, icon):
+        self.icon = icon
+
+    def DoGetBestSize(self):
+        """
+        Overridden base class virtual. Determines the best size of the control.
+        """
+        font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
+        dc = wx.ClientDC(self)
+        dc.SetFont(font)
+
+        # Calculate sizing
+        totalwidth = self.padding_x + self.textctrl.GetSize()[0] + 120
+        totalheight = self.textctrl.GetSize()[1] + self.padding_y + 120
+
+        best = wx.Size(totalwidth, totalheight)
+
+        # Cache the best size so it doesn't need to be calculated again,
+        # at least until some properties of the window change
+        self.CacheBestSize(best)
+
+        return best

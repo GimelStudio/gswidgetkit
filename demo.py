@@ -24,8 +24,9 @@ except Exception:
 
 from gswidgetkit import (NumberField, EVT_NUMBERFIELD, Label,
                          EVT_NUMBERFIELD_CHANGE, NativeTextCtrl,
-                         TextCtrl, ColorPickerButton, EVT_BUTTON,
-                         Button, CheckBox, ToolTip, DropDown, EVT_DROPDOWN)
+                         TextCtrl, StyledTextCtrl, ColorPickerButton,
+                         EVT_BUTTON, Button, CheckBox, ToolTip, DropDown,
+                         EVT_DROPDOWN)
 from gswidgetkit.icons import ICON_TEST
 
 
@@ -51,7 +52,7 @@ class TestAppFrame(wx.Frame):
         ctrl5 = NumberField(self, default_value=13, label="Y:",
                             min_value=0, max_value=100, suffix="", show_p=False)
 
-        ctrl6 = TextCtrl(self, value="", style=wx.BORDER_SIMPLE,
+        ctrl6 = StyledTextCtrl(self, value="", style=wx.BORDER_SIMPLE,
                             placeholder="", size=(-1, 24))
         ctrl7 = NativeTextCtrl(self, size=(-1, 26))
 
@@ -90,14 +91,19 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
 
         ctrl21 = Label(self, label="This is a label", color="#ccc", font_bold=True)
 
+        sz3 = wx.BoxSizer(wx.HORIZONTAL)
+        
+        ctrl22 = TextCtrl(self, default="hello", size=(-1, 28))
+
         sz2.Add(ctrl15, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl16, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl17, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl18, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl19, flag=wx.EXPAND | wx.ALL, border=6)
         sz2.Add(ctrl20, flag=wx.EXPAND | wx.ALL, border=6)
-
         sz2.Add(ctrl21, flag=wx.EXPAND | wx.ALL, border=6)
+        
+        sz3.Add(ctrl22, flag=wx.EXPAND | wx.ALL, border=6)
 
         sz.Add(ctrl1, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl2, flag=wx.EXPAND | wx.ALL, border=6)
@@ -115,6 +121,7 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
         sz.Add(ctrl13, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(ctrl14, flag=wx.EXPAND | wx.ALL, border=6)
         sz.Add(sz2, border=20)
+        sz.Add(sz3, border=20)
 
         self.SetSizer(sz)
 

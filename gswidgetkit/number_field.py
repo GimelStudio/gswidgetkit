@@ -17,7 +17,7 @@
 import wx
 from wx.lib.newevent import NewCommandEvent
 
-from .textctrl import TextCtrl
+from .textctrl import StyledTextCtrl
 from .utils import GetTextExtent
 
 numberfield_cmd_event, EVT_NUMBERFIELD = NewCommandEvent()
@@ -64,9 +64,9 @@ class NumberField(wx.Control):
         self.anchor_point = (0, 0)
 
         # Text ctrl
-        self.textctrl = TextCtrl(self, value=str(self.cur_value),
-                                 style=wx.BORDER_NONE, pos=(0, 0),
-                                 size=(10, 24))
+        self.textctrl = StyledTextCtrl(self, value=str(self.cur_value),
+                                       style=wx.BORDER_NONE, pos=(0, 0),
+                                       size=(10, 24))
         self.textctrl.Hide()
 
         self.textctrl.Bind(wx.EVT_LEAVE_WINDOW, self.OnHideTextCtrl)
