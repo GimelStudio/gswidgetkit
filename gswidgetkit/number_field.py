@@ -98,9 +98,14 @@ class NumberField(wx.Control):
         self.UpdateDrawing()
 
     def UpdateDrawing(self):
-        dc = wx.BufferedDC(wx.ClientDC(self), self.buffer)
+        dc = wx.MemoryDC()
+        dc.SelectObject(self.buffer)
+        dc = wx.GCDC(dc)
         self.OnDrawBackground(dc)
         self.OnDrawWidget(dc)
+        del dc  # need to get rid of the MemoryDC before Update() is called.
+        self.Refresh()
+        self.Update()
 
     def OnDrawBackground(self, dc):
         dc.SetBackground(wx.Brush(self.parent.GetBackgroundColour()))
