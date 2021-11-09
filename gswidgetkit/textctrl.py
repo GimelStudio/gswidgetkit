@@ -137,13 +137,11 @@ class TextCtrl(wx.Control):
         if self.icon == None:
             self.textctrl.SetPosition((2, (int(self.Size[1]/2) - 10)))
             self.textctrl.SetSize((int(self.Size[0]-4), 20))
-            self.textctrl.SetCurrentPos(len(str(self.value)))
-            self.textctrl.SelectNone()
         else:
             self.textctrl.SetPosition((25, (int(self.Size[1]/2) - 10)))
             self.textctrl.SetSize((int(self.Size[0]-26), 20))
-            self.textctrl.SetCurrentPos(len(str(self.value)))
-            self.textctrl.SelectNone()
+        self.textctrl.SetCurrentPos(len(str(self.value)))
+        self.textctrl.SelectNone()
 
     def OnLeftDown(self, event):
         self.mouse_in = True
@@ -185,6 +183,7 @@ class TextCtrl(wx.Control):
 
     def SetValue(self, value):
         self.value = value
+        self.textctrl.SetValue(value)
 
     def SetIcon(self, icon):
         self.icon = icon
