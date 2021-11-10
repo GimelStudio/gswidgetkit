@@ -78,7 +78,7 @@ class TextCtrl(wx.Control):
                                        sel_color="#5680C2", pos=(0, 0), size=(10, 24))
 
         self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnMouseLeave)
-        self.textctrl.Bind(wx.EVT_ENTER_WINDOW, self.OnMouseEnter)
+        self.textctrl.Bind(wx.EVT_SET_FOCUS, self.OnFocused)
 
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
@@ -143,26 +143,25 @@ class TextCtrl(wx.Control):
         self.textctrl.SetCurrentPos(len(str(self.value)))
         self.textctrl.SelectNone()
 
-    def OnLeftDown(self, event):
+    def OnFocused(self, event):
         self.mouse_in = True
+        event.Skip()
         self.UpdateDrawing()
 
     def OnSetFocus(self, event):
         self.focused = True
         self.textctrl.SetFocus()
+        event.Skip()
         self.Refresh()
 
     def OnKillFocus(self, event):
         self.focused = False
+        event.Skip()
         self.Refresh()
-
-    def OnMouseEnter(self, event):
-        self.mouse_in = True
-        self.Refresh()
-        self.UpdateDrawing()
 
     def OnMouseLeave(self, event):
         self.mouse_in = False
+        event.Skip()
         self.Refresh()
         self.UpdateDrawing()
 
