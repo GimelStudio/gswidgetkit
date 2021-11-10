@@ -79,6 +79,7 @@ class TextCtrl(wx.Control):
 
         self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnMouseLeave)
         self.textctrl.Bind(wx.EVT_SET_FOCUS, self.OnFocused)
+        self.textctrl.Bind(wx.EVT_CHAR_HOOK, self.OnKey)
 
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
@@ -143,6 +144,16 @@ class TextCtrl(wx.Control):
         self.textctrl.SetCurrentPos(len(str(self.value)))
         self.textctrl.SelectNone()
 
+    def OnKey(self, event):
+        key = event.GetKeyCode()
+        if key == wx.WXK_RETURN:
+            self.mouse_in = False
+            self.focused = False
+            self.textctrl.SetCurrentPos(len(str(self.value)))
+            self.UpdateDrawing()
+        else:
+            event.Skip()
+
     def OnFocused(self, event):
         self.mouse_in = True
         event.Skip()
@@ -197,7 +208,7 @@ class TextCtrl(wx.Control):
 
         # Calculate sizing
         totalwidth = self.padding_x + self.textctrl.GetSize()[0] + 120
-        totalheight = self.textctrl.GetSize()[1] + self.padding_y + 120
+        totalheight = self.textctrl.GetSize()[1] + self.padding_y
 
         best = wx.Size(totalwidth, totalheight)
 

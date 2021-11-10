@@ -69,8 +69,9 @@ class NumberField(wx.Control):
                                        size=(10, 24))
         self.textctrl.Hide()
 
-        self.textctrl.Bind(wx.EVT_LEAVE_WINDOW, self.OnHideTextCtrl)
+        # self.textctrl.Bind(wx.EVT_LEAVE_WINDOW, self.OnHideTextCtrl)
         self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnHideTextCtrl)
+        self.textctrl.Bind(wx.EVT_CHAR_HOOK, self.OnKey)
 
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
@@ -149,6 +150,17 @@ class NumberField(wx.Control):
         self.textctrl.SetPosition((5, (int(self.Size[1]/2) - 10)))
         self.textctrl.SetSize((int(self.Size[0]-10), 24))
         self.textctrl.SetCurrentPos(len(str(self.cur_value)))
+        self.textctrl.SelectNone()
+
+    def OnKey(self, event):
+        key = event.GetKeyCode()
+        if key == wx.WXK_RETURN:
+            self.mouse_in = False
+            self.focused = False
+            self.textctrl.SetCurrentPos(len(str(self.cur_value)))
+            self.UpdateDrawing()
+        else:
+            event.Skip()
 
     def OnMouseMotion(self, event):
         """
@@ -200,6 +212,7 @@ class NumberField(wx.Control):
         if self.show_p is False:
             self.textctrl.Show()
             self.textctrl.SetFocus()
+            self.textctrl.SetCurrentPos(len(str(self.cur_value)))
 
     def SendSliderEvent(self):
         wx.PostEvent(self, numberfield_cmd_event(id=self.GetId(), value=self.cur_value))
@@ -314,7 +327,7 @@ class NumberField(wx.Control):
         """
 
         normal_label = self.label
-        value_label = str(self.cur_value)+self.suffix
+        value_label = str(self.cur_value) + self.suffix
 
         font = wx.SystemSettings.GetFont(wx.SYS_DEFAULT_GUI_FONT)
 
