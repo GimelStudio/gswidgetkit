@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# GS Widget Kit Copyright 2021 by Noah Rahm and contributors
+# gswidgetkit Copyright 2021 by Noah Rahm and contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
