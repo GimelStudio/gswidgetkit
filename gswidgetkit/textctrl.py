@@ -198,6 +198,9 @@ class TextCtrl(wx.Control):
     def SetIcon(self, icon):
         self.icon = icon
 
+    def SetFocus(self):
+        self.textctrl.SetFocus()
+
     def DoGetBestSize(self):
         """
         Overridden base class virtual. Determines the best size of the control.
