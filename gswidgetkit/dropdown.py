@@ -107,7 +107,7 @@ class DropDown(wx.Control):
 
         dc.DrawRoundedRectangle(0, 0, w, h, 4)
         dc.DrawText(self.GetValue(), self.padding_x, int((h/2) - (lbl_h/2)))
-        dc.DrawBitmap(ICON_DROPDOWN_ARROW.GetBitmap(), (w-28), int((h/2) - (lbl_h/2)))
+        dc.DrawBitmap(ICON_DROPDOWN_ARROW.GetBitmap(), (w-28), int((h/2) - (lbl_h/2) - 2))
 
     def OnSetFocus(self, event):
         self.focused = True

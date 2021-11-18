@@ -132,15 +132,15 @@ class TextCtrl(wx.Control):
         dc.DrawRoundedRectangle(1, 1, width-1, height-1, 4)
 
         if self.icon != None:
-            dc.DrawBitmap(self.icon, 8, int(self.Size[1]/2) - 8)
+            dc.DrawBitmap(self.icon, 8, int(self.Size[1]/2) - (self.icon.Height/2))
 
         # Update position of textctrl
         if self.icon == None:
             self.textctrl.SetPosition((2, (int(self.Size[1]/2) - 10)))
             self.textctrl.SetSize((int(self.Size[0]-4), 20))
         else:
-            self.textctrl.SetPosition((25, (int(self.Size[1]/2) - 10)))
-            self.textctrl.SetSize((int(self.Size[0]-26), 20))
+            self.textctrl.SetPosition((self.icon.Width + 4, (int(self.Size[1]/2) - 10)))
+            self.textctrl.SetSize((int(self.Size[0]-(self.icon.Width + 4)-4), 20))
         self.textctrl.SetCurrentPos(len(str(self.value)))
         self.textctrl.SelectNone()
 
@@ -210,7 +210,7 @@ class TextCtrl(wx.Control):
         dc.SetFont(font)
 
         # Calculate sizing
-        totalwidth = self.padding_x + self.textctrl.GetSize()[0] + 120
+        totalwidth = self.padding_x + self.textctrl.GetSize()[0] + 130
         totalheight = self.textctrl.GetSize()[1] + self.padding_y
 
         best = wx.Size(totalwidth, totalheight)
