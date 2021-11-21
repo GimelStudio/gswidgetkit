@@ -17,6 +17,8 @@
 import wx
 from wx.lib.newevent import NewCommandEvent
 
+from .constants import TEXT_COLOR, ACCENT_COLOR, BUTTON_BG_COLOR
+
 button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 
@@ -94,17 +96,21 @@ class Button(wx.Control):
         w, h = self.GetSize()
 
         if self.mouse_down or self.highlighted:
-            dc.SetBrush(wx.Brush(wx.Colour("#5680C2")))
+            dc.SetBrush(wx.Brush(wx.Colour(ACCENT_COLOR)))
 
         elif self.mouse_in:
-            dc.SetBrush(wx.Brush(wx.Colour("#4C4C4C")))
+            if self.flat is True:
+                color = self.parent.GetBackgroundColour().ChangeLightness(110)
+            else:
+                color = wx.Colour(BUTTON_BG_COLOR)
+            dc.SetBrush(wx.Brush(color))
 
         else:
             if self.flat is True:
                 color = self.parent.GetBackgroundColour()
             else:
-                color = "#333333"
-            dc.SetBrush(wx.Brush(wx.Colour(color)))
+                color = wx.Colour(BUTTON_BG_COLOR).ChangeLightness(85)
+            dc.SetBrush(wx.Brush(color))
 
         dc.DrawRoundedRectangle(0, 0, w, h, 4)
 
@@ -119,7 +125,7 @@ class Button(wx.Control):
 
         if bmp:
 
-            if position == 'left':
+            if position == "left":
                 if self.center:
                     bmp_x = (w - txt_w - bmp_w) / 2
                     bmp_y = (h - bmp_h) / 2
@@ -136,7 +142,7 @@ class Button(wx.Control):
                     else:
                         txt_y = self.padding[0]
 
-            if position == 'right':
+            if position == "right":
                 if self.center:
                     bmp_x = (w - txt_w - bmp_w) / 2 + txt_w
                     bmp_y = (h - bmp_h) / 2
@@ -153,7 +159,7 @@ class Button(wx.Control):
                     else:
                         txt_y = self.padding[0]
 
-            elif position == 'top':
+            elif position == "top":
                 if self.center:
                     bmp_x = (w - bmp_w) / 2
                     bmp_y = (h - bmp_h - txt_h) / 2
@@ -174,7 +180,7 @@ class Button(wx.Control):
                         txt_x = self.padding[3]
                         txt_y = self.padding[0] + bmp_h
 
-            elif position == 'bottom':
+            elif position == "bottom":
                 if self.center:
                     bmp_x = (w - bmp_w) / 2
                     bmp_y = (h - txt_h - bmp_h) / 2 + txt_h
@@ -206,9 +212,11 @@ class Button(wx.Control):
 
         # Text color
         if self.mouse_down or self.focused or self.mouse_in:
-            dc.SetTextForeground(wx.Colour("#fff"))
+            color = wx.Colour(TEXT_COLOR).ChangeLightness(120)
         else:
-            dc.SetTextForeground(wx.Colour("#e9e9e9"))
+            color = wx.Colour(TEXT_COLOR)
+
+        dc.SetTextForeground(color)
 
         # Draw text
         dc.DrawText(self.label, int(txt_x), int(txt_y))
@@ -265,7 +273,7 @@ class Button(wx.Control):
             bmp = False
 
         if bmp:
-            if position == 'left' or position == 'right':
+            if position == "left" or position == "right":
                 if bmp_h > txt_h:
                     size = (self.padding[3] + bmp_w + txt_w + self.padding[1],
                             self.padding[0] + bmp_h + self.padding[2])

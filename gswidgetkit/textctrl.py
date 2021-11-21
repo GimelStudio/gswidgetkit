@@ -17,10 +17,14 @@
 import wx
 from wx import stc
 
+from .constants import (ACCENT_COLOR, TEXT_COLOR, TEXTCTRL_BG_COLOR, 
+                        TEXTCTRL_BORDER_COLOR)
+
 
 class StyledTextCtrl(stc.StyledTextCtrl):
     def __init__(self, parent, value="", placeholder="", scrollbar=False,
-                 style=0, bg_color="#333333", sel_color="#5680C2", *args, **kwargs):
+                 style=0, bg_color=TEXTCTRL_BG_COLOR, sel_color=ACCENT_COLOR, 
+                 *args, **kwargs):
         stc.StyledTextCtrl.__init__(self, parent, style=style | wx.TRANSPARENT_WINDOW, *args, **kwargs)
 
         if scrollbar is False:
@@ -74,8 +78,10 @@ class TextCtrl(wx.Control):
 
         # Inner text ctrl
         self.textctrl = StyledTextCtrl(self, value=str(self.value),
-                                       style=wx.BORDER_NONE, bg_color="#222222",
-                                       sel_color="#5680C2", pos=(0, 0), size=(10, 24))
+                                       style=wx.BORDER_NONE, 
+                                       bg_color=TEXTCTRL_BG_COLOR,
+                                       sel_color=ACCENT_COLOR, pos=(0, 0), 
+                                       size=(10, 24))
 
         self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnMouseLeave)
         self.textctrl.Bind(wx.EVT_SET_FOCUS, self.OnFocused)
@@ -120,16 +126,20 @@ class TextCtrl(wx.Control):
         height = self.Size[1]
 
         if self.mouse_in:
-            dc.SetTextForeground("#ffffff")
-            dc.SetPen(wx.Pen(wx.Colour("#5680C2"), 1))
-            dc.SetBrush(wx.Brush(wx.Colour("#333333")))
-            self.textctrl.StyleSetBackground(stc.STC_STYLE_DEFAULT, wx.Colour("#333333"))
+            text_color = wx.Colour(TEXT_COLOR)
+            border_color = wx.Colour(ACCENT_COLOR)
+            bg_color = wx.Colour(TEXTCTRL_BG_COLOR)
         else:
-            dc.SetTextForeground("#e9e9e9")
-            dc.SetPen(wx.Pen(wx.Colour("#333333"), 1))
-            dc.SetBrush(wx.Brush(wx.Colour("#222222")))
-            self.textctrl.StyleSetBackground(stc.STC_STYLE_DEFAULT, wx.Colour("#222222"))
+            text_color = wx.Colour(TEXT_COLOR)
+            border_color = wx.Colour(TEXTCTRL_BORDER_COLOR)
+            bg_color = wx.Colour(TEXTCTRL_BG_COLOR).ChangeLightness(85)
+
+        dc.SetTextForeground(text_color)
+        dc.SetPen(wx.Pen(border_color, 1))
+        dc.SetBrush(wx.Brush(bg_color))
         dc.DrawRoundedRectangle(1, 1, width-1, height-1, 4)
+
+        self.textctrl.StyleSetBackground(stc.STC_STYLE_DEFAULT, bg_color)
 
         if self.icon != None:
             dc.DrawBitmap(self.icon, 8, int(self.Size[1]/2) - (self.icon.Height/2))

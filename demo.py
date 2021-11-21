@@ -35,7 +35,7 @@ class TestAppFrame(wx.Frame):
         kwds["style"] = wx.DEFAULT_FRAME_STYLE
         wx.Frame.__init__(self, *args, **kwds)
         self.SetSize((600, 800))
-        self.SetBackgroundColour(wx.Colour("#464646"))
+        self.SetBackgroundColour(wx.Colour("#36383c"))
 
         sz = wx.BoxSizer(wx.VERTICAL)
 

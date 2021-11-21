@@ -18,6 +18,7 @@ import wx
 import wx.lib.agw.flatmenu as flatmenu
 from wx.lib.newevent import NewCommandEvent
 
+from .constants import ACCENT_COLOR, TEXT_COLOR, DROPDOWN_BG_COLOR
 from .utils import GetTextExtent
 from .icons import ICON_DROPDOWN_ARROW
 
@@ -92,19 +93,20 @@ class DropDown(wx.Control):
     def OnDrawWidget(self, dc):
         fnt = self.parent.GetFont()
         dc.SetFont(fnt)
-        dc.SetTextForeground("#ffffff")
+        dc.SetTextForeground(TEXT_COLOR)
         dc.SetPen(wx.TRANSPARENT_PEN)
 
         w, h = self.GetSize()
         lbl_w, lbl_h = GetTextExtent(self.GetValue())
 
         if self.mouse_down:
-            dc.SetBrush(wx.Brush(wx.Colour("#5680C2")))
+            bg_color = wx.Colour(ACCENT_COLOR)
         elif self.mouse_in:
-            dc.SetBrush(wx.Brush(wx.Colour("#4C4C4C")))
+            bg_color = wx.Colour(DROPDOWN_BG_COLOR)
         else:
-            dc.SetBrush(wx.Brush(wx.Colour("#333333")))
+            bg_color = wx.Colour(DROPDOWN_BG_COLOR).ChangeLightness(85)
 
+        dc.SetBrush(wx.Brush(bg_color))
         dc.DrawRoundedRectangle(0, 0, w, h, 4)
         dc.DrawText(self.GetValue(), self.padding_x, int((h/2) - (lbl_h/2)))
         dc.DrawBitmap(ICON_DROPDOWN_ARROW.GetBitmap(), (w-28), int((h/2) - (lbl_h/2) - 2))

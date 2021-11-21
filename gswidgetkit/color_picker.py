@@ -18,8 +18,8 @@ import wx
 from wx.lib.newevent import NewCommandEvent
 import wx.lib.agw.cubecolourdialog as colordialog
 
+from .constants import TEXT_COLOR
 from .icons import ICON_BRUSH_CHECKERBOARD
-
 
 button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
@@ -101,13 +101,13 @@ class ColorPickerButton(wx.Control):
         dc.SetBrush(wx.Brush(wx.Colour(self.cur_color)))
         dc.DrawRoundedRectangle(txt_w, 0, w-txt_w, h, 4)
 
-        # Text color
-        if self.mouse_down or self.focused or self.mouse_in:
-            dc.SetTextForeground(wx.Colour("#fff"))
-        else:
-            dc.SetTextForeground(wx.Colour("#e9e9e9"))
-
         # Draw text
+        if self.mouse_down or self.focused or self.mouse_in:
+            color = wx.Colour(TEXT_COLOR).ChangeLightness(120)
+        else:
+            color = wx.Colour(TEXT_COLOR)
+        dc.SetTextForeground(color)
+
         dc.DrawText(self.label, int(txt_x), int(txt_y))
 
     def OnSetFocus(self, event):

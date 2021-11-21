@@ -17,6 +17,7 @@
 import wx
 from wx.lib.newevent import NewCommandEvent
 
+from .constants import ACCENT_COLOR, NUMBERFIELD_BG_COLOR, TEXT_COLOR
 from .textctrl import StyledTextCtrl
 from .utils import GetTextExtent
 
@@ -65,6 +66,7 @@ class NumberField(wx.Control):
 
         # Text ctrl
         self.textctrl = StyledTextCtrl(self, value=str(self.cur_value),
+                                       bg_color=NUMBERFIELD_BG_COLOR,
                                        style=wx.BORDER_NONE, pos=(0, 0),
                                        size=(10, 24))
         self.textctrl.Hide()
@@ -126,15 +128,17 @@ class NumberField(wx.Control):
         self.p_val = round((self.cur_value*one_val))
 
         if self.mouse_in:
-            dc.SetTextForeground("#ffffff")
-            dc.SetBrush(wx.Brush(wx.Colour("#4c4c4c")))
+            p_color = wx.Colour(ACCENT_COLOR)
+            bg_color = wx.Colour(NUMBERFIELD_BG_COLOR)
         else:
-            dc.SetTextForeground("#e9e9e9")
-            dc.SetBrush(wx.Brush(wx.Colour("#333333")))
+            p_color = wx.Colour(ACCENT_COLOR).ChangeLightness(90)
+            bg_color = wx.Colour(NUMBERFIELD_BG_COLOR).ChangeLightness(85)
+        dc.SetTextForeground(wx.Colour(TEXT_COLOR))
+        dc.SetBrush(wx.Brush(bg_color))
         dc.DrawRoundedRectangle(0, 0, width, height, 4)
 
         if self.show_p is True:
-            dc.SetBrush(wx.Brush(wx.Colour("#5680C2")))
+            dc.SetBrush(wx.Brush(p_color))
             dc.DrawRoundedRectangle(0, 0, self.p_val, height, 4)
 
             if self.p_val < width-4 and self.p_val > 4:
@@ -195,6 +199,8 @@ class NumberField(wx.Control):
         if self.changing_value and not event.Dragging():
             self.changing_value = False
             self.parent.SetDoubleBuffered(False)
+
+        event.Skip()
 
     def OnHideTextCtrl(self, event):
         value = self.textctrl.GetValue()
