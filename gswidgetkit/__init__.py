@@ -8,3 +8,6 @@ from .tooltip import ToolTip
 from .dropdown import DropDown, EVT_DROPDOWN
 from .label import Label
 from .utils import GetTextExtent
+from .zoom_panel import ZoomPanel
+from .foldpanelbar import FoldPanelBar
+from .z_matrix import ZMatrix
