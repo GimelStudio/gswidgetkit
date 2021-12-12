@@ -3,7 +3,6 @@
 build
 dist
 gswidgetkit.egg-info
-pypi.txt
 
 # Ignore vscode
 .vscode
