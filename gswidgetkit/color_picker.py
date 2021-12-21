@@ -25,6 +25,14 @@ button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 
 class ColorPickerButton(wx.Control):
+    """ 
+    Color picker widget for selecting an RGBA color.
+
+    :param wx.Window `parent`: parent window. Must not be ``None``.
+    :param integer `id`: window identifier. A value of -1 indicates a default value.
+    :param string `label`: the label displayed beside the color select button.
+    :param tuple `default`: tuple of the default RGBA color.
+    """
     def __init__(self, parent, id=wx.ID_ANY, label="", default=(213, 219, 213, 177),
                  pos=wx.DefaultPosition, size=wx.Size(400, -1), style=wx.NO_BORDER, 
                  *args, **kwargs):

@@ -23,9 +23,22 @@ button_cmd_event, EVT_BUTTON = NewCommandEvent()
 
 
 class Button(wx.Control):
+    """ 
+    Button with support for the following combinations:
+    1. text
+    2. icon + text
+    3. icon
+
+    :param wx.Window `parent`: parent window. Must not be ``None``.
+    :param integer `id`: window identifier. A value of -1 indicates a default value.
+    :param string `label`: the displayed button label.
+    :param tuple `bmp`: the button icon as (wx.Bitmap, pos). pos can be one of 'top', 'left', 'right', 'bottom'.
+    :param bool `center`: if True the contents of the button will be centered rather than left-aligned.
+    :param bool `flat`: if True, the background will take on the color of the parent window.
+    """
     def __init__(self, parent, id=wx.ID_ANY, label="", bmp=None, center=True,
-                flat=False, pos=wx.DefaultPosition, size=wx.DefaultSize,
-                style=wx.NO_BORDER, *args, **kwargs):
+                 flat=False, pos=wx.DefaultPosition, size=wx.DefaultSize,
+                 style=wx.NO_BORDER, *args, **kwargs):
         wx.Control.__init__(self, parent, id, pos, size, style, *args, **kwargs)
 
         self.parent = parent

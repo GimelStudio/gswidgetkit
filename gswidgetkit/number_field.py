@@ -26,9 +26,23 @@ numberfield_change_cmd_event, EVT_NUMBERFIELD_CHANGE = NewCommandEvent()
 
 
 class NumberField(wx.Control):
-    def __init__(self, parent, _id=wx.ID_ANY, label="", default_value=0, min_value=0,
+    """ 
+    Number field widget to select an integer. Supports both precise and imprecise
+    editing (via dragging the cursor).
+
+    :param wx.Window `parent`: parent window. Must not be ``None``.
+    :param integer `id`: window identifier. A value of -1 indicates a default value.
+    :param string `label`: the displayed text on the Numberfield label.
+    :param integer `default_value`: the default value.
+    :param integer `min_value`: the minimum value the control can be set to.
+    :param integer `max_value`: the maximum value the control can be set to.
+    :param string `suffix`: the label text shown directly after the value.
+    :param bool `show_p`: if True, show the progress in the background of the control.
+    :param bool `scroll_horz`: if True, the user can scroll horizontally with the mouse.
+    """
+    def __init__(self, parent, id=wx.ID_ANY, label="", default_value=0, min_value=0,
                  max_value=10, suffix="px", show_p=True, scroll_horz=True, size=wx.DefaultSize):
-        wx.Control.__init__(self, parent, _id, pos=wx.DefaultPosition,
+        wx.Control.__init__(self, parent, id, pos=wx.DefaultPosition,
                             size=size, style=wx.NO_BORDER)
 
         self.parent = parent

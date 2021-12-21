@@ -21,7 +21,6 @@ import wx
 import wx.lib.agw.supertooltip as STT
 
 
-
 def MakeBold(font):
     """
     Makes a font bold. Utility method.

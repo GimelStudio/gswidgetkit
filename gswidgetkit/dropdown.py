@@ -30,6 +30,14 @@ dropdown_cmd_event, EVT_DROPDOWN = NewCommandEvent()
 
 
 class DropDown(wx.Control):
+    """ 
+    Dropdown widget for selecting a value from a list of choices.
+
+    :param wx.Window `parent`: parent window. Must not be ``None``.
+    :param integer `id`: window identifier. A value of -1 indicates a default value.
+    :param list `items`: the list of items in the dropdown.
+    :param `default`: the default selected item in the dropdown. Must exist in `items`.
+    """
     def __init__(self, parent, items, default, id=wx.ID_ANY,
                  pos=wx.DefaultPosition, size=wx.DefaultSize,
                  style=wx.NO_BORDER, *args,**kwargs):

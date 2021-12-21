@@ -18,6 +18,17 @@ import wx
 
 
 class Label(wx.StaticText):
+    """ 
+    Label widget wrapper created to abstract away needing to have extra code for
+    changing the label's colors and font.
+
+    :param wx.Window `parent`: parent window. Must not be ``None``.
+    :param integer `id`: window identifier. A value of -1 indicates a default value.
+    :param string `label`: the label text.
+    :param `color`: the label text color.
+    :param `bg_color`: the label background color. 
+    :param bool `font_bold`: if true, the label text will be bolded.
+    """
     def __init__(self, parent, id=wx.ID_ANY, label="", color="#fff",
                  bg_color=None, font_bold=False, style=0):
         wx.StaticText.__init__(self, parent, id=id, label=label, style=style)

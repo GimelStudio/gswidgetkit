@@ -24,6 +24,13 @@ from .icons import (ICON_CHECKBOX_CHECKED, ICON_CHECKBOX_UNCHECKED,
 
 
 class CheckBox(wx.Control):
+    """ 
+    Checkbox widget for selecting boolean values.
+
+    :param wx.Window `parent`: parent window. Must not be ``None``.
+    :param integer `id`: window identifier. A value of -1 indicates a default value.
+    :param string `label`: the displayed checkbox label.
+    """
     def __init__(self, parent, id=wx.ID_ANY, label="", pos=wx.DefaultPosition,
                  size=wx.DefaultSize, style=wx.NO_BORDER, validator=wx.DefaultValidator,
                  name="CheckBox"):
