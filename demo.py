@@ -45,7 +45,8 @@ class TestAppFrame(wx.Frame):
                             min_value=0, max_value=100, suffix="%")
 
         ctrl3 = NumberField(self, default_value=0, label="Radius",
-                            min_value=0, max_value=10, suffix="", show_p=False)
+                            min_value=0, max_value=10, suffix="", 
+                            show_p=False, disable_precise=True)
 
         ctrl4 = NumberField(self, default_value=50, label="X:",
                             min_value=0, max_value=100, suffix="", show_p=False)

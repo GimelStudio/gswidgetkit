@@ -38,10 +38,12 @@ class NumberField(wx.Control):
     :param integer `max_value`: the maximum value the control can be set to.
     :param string `suffix`: the label text shown directly after the value.
     :param bool `show_p`: if True, show the progress in the background of the control.
+    :param bool `disable_precise`: if True, disable the ability to edit the value via typing in a precise value.
     :param bool `scroll_horz`: if True, the user can scroll horizontally with the mouse.
     """
     def __init__(self, parent, id=wx.ID_ANY, label="", default_value=0, min_value=0,
-                 max_value=10, suffix="px", show_p=True, scroll_horz=True, size=wx.DefaultSize):
+                 max_value=10, suffix="px", show_p=True, disable_precise=False,
+                 scroll_horz=True, size=wx.DefaultSize):
         wx.Control.__init__(self, parent, id, pos=wx.DefaultPosition,
                             size=size, style=wx.NO_BORDER)
 
@@ -50,6 +52,7 @@ class NumberField(wx.Control):
         self.mouse_in = False
         self.control_size = wx.DefaultSize
         self.show_p = show_p
+        self.disable_precise = disable_precise
         self.buffer = None
 
         if scroll_horz is True:
@@ -229,7 +232,7 @@ class NumberField(wx.Control):
         self.UpdateDrawing()
 
     def OnShowTextCtrl(self, event):
-        if self.show_p is False:
+        if self.show_p is False and self.disable_precise is False:
             self.textctrl.Show()
             self.textctrl.SetFocus()
             self.textctrl.SetCurrentPos(len(str(self.cur_value)))
