@@ -174,13 +174,20 @@ class DropDown(wx.Control):
     def GetValue(self):
         return self.value
 
-    def ComputeMenuPos(self, menu):
-        y = self.GetSize()[1] + self.GetScreenPosition()[1] + 3
+    def ComputeMenuPos(self):
+        y = self.GetSize()[1] + self.GetScreenPosition()[1] + 1
         x = self.GetScreenPosition()[0]
         return wx.Point(x, y)
 
     def OnClick(self):
-        pos = self.ComputeMenuPos(self.dropdown_menu)
+        # Set the size of the menu
+        w, h = self.GetSize()
+        self.dropdown_menu._menuWidth = w
+        h = (self.dropdown_menu._itemHeight)*(len(self.items))+4
+        self.dropdown_menu.SetSize(wx.Size(w, h))
+        
+        # Popup the menu
+        pos = self.ComputeMenuPos()
         self.dropdown_menu.Popup(pos, self)
 
     def SendDropdownSelectEvent(self):
@@ -188,6 +195,11 @@ class DropDown(wx.Control):
 
     def CreateMenu(self):
         self.dropdown_menu = flatmenu.FlatMenu()
+
+        # Make the margin width to be the same as in the dropdown button
+        # and the margin height to be consistent with standards.
+        self.dropdown_menu._marginWidth = 10
+        self.dropdown_menu._marginHeight = 26
 
         i = 0
         for item in self.items:
