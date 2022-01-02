@@ -87,13 +87,11 @@ class NumberField(wx.Control):
                                        style=wx.BORDER_NONE, pos=(0, 0),
                                        size=(10, 24))
         self.textctrl.Hide()
-
-        # self.textctrl.Bind(wx.EVT_LEAVE_WINDOW, self.OnHideTextCtrl)
         self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnHideTextCtrl)
-        self.textctrl.Bind(wx.EVT_CHAR_HOOK, self.OnKey)
-
+        
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
+        self.Bind(wx.EVT_CHAR_HOOK, self.OnKey)
         self.Bind(wx.EVT_MOTION, self.OnMouseMotion)
         self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown, self)
         self.Bind(wx.EVT_LEFT_UP, self.OnLeftUp, self)
@@ -170,15 +168,13 @@ class NumberField(wx.Control):
         # Update position of textctrl
         self.textctrl.SetPosition((5, (int(self.Size[1]/2) - 10)))
         self.textctrl.SetSize((int(self.Size[0]-10), 24))
-        self.textctrl.SetCurrentPos(len(str(self.cur_value)))
-        self.textctrl.SelectNone()
 
     def OnKey(self, event):
         key = event.GetKeyCode()
         if key == wx.WXK_RETURN:
             self.mouse_in = False
             self.focused = False
-            self.textctrl.SetCurrentPos(len(str(self.cur_value)))
+            self.OnHideTextCtrl(None)
             self.UpdateDrawing()
         else:
             event.Skip()
@@ -208,7 +204,7 @@ class NumberField(wx.Control):
         if event.Dragging() and self.changing_value:
             self.SetCursor(wx.Cursor(wx.CURSOR_BLANK))
             # Set the cursor back to the original point so it doesn't run away
-            if 'wxMac' not in wx.PlatformInfo:
+            if "wxMac" not in wx.PlatformInfo:
                 self.WarpPointer(int(self.anchor_point[0]), int(self.anchor_point[1]))
 
         # Case where the mouse is moving over the control, but has no
@@ -233,9 +229,11 @@ class NumberField(wx.Control):
 
     def OnShowTextCtrl(self, event):
         if self.show_p is False and self.disable_precise is False:
+            self.textctrl.SetValue(str(self.cur_value))
             self.textctrl.Show()
             self.textctrl.SetFocus()
-            self.textctrl.SetCurrentPos(len(str(self.cur_value)))
+        event.Skip()
+        self.textctrl.SetCurrentPos(len(str(self.cur_value+1)))
 
     def SendSliderEvent(self):
         wx.PostEvent(self, numberfield_cmd_event(id=self.GetId(), value=self.cur_value))
