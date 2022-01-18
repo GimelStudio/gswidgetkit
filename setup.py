@@ -4,9 +4,9 @@ from setuptools import setup
 setup(
   name='gswidgetkit',
   packages=['gswidgetkit', 'gswidgetkit.icons'],
-  version='0.2.7',
+  version='0.2.8',
   license='Apache 2.0',
-  description='Custom wxPython widgets created for use in Gimel Studio, highly inspired by Blender and Sketch widgets',
+  description='Custom widget toolkit for easier creation of customized wxPython GUIs',
   long_description_content_type="text/markdown",
   author='Noah Rahm',
   author_email='correctsyntax@yahoo.com',
