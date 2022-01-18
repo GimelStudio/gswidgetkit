@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# gswidgetkit Copyright 2021 by Noah Rahm and contributors
+# gswidgetkit Copyright 2021-2022 by Noah Rahm and contributors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -158,7 +158,7 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
 
 if __name__ == "__main__":
     app = wx.App(False)
-    frame = TestAppFrame(None, wx.ID_ANY, "GS Widgetkit Demo")
+    frame = TestAppFrame(None, wx.ID_ANY, "gswidgetkit Demo")
     app.SetTopWindow(frame)
     frame.Show()
     app.MainLoop()

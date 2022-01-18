@@ -5,7 +5,7 @@
 # Andrea Gavana, @ 23 Mar 2005
 # Latest Revision: 16 Jul 2012, 15.00 GMT
 # 
-# Edited version in gswidgetkit Copyright 2021 by Noah Rahm and contributors
+# Edited version in gswidgetkit Copyright 2021-2022 by Noah Rahm and contributors
 #
 # TODO List
 #
