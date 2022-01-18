@@ -21,7 +21,7 @@ import wx.lib.agw.cubecolourdialog as colordialog
 from .constants import TEXT_COLOR
 from .icons import ICON_BRUSH_CHECKERBOARD
 
-button_cmd_event, EVT_BUTTON = NewCommandEvent()
+button_cmd_event, EVT_COLORPICKER_BUTTON = NewCommandEvent()
 
 
 class ColorPickerButton(wx.Control):

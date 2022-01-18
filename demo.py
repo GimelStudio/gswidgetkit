@@ -26,7 +26,7 @@ from gswidgetkit import (NumberField, EVT_NUMBERFIELD, Label,
                          EVT_NUMBERFIELD_CHANGE, NativeTextCtrl,
                          TextCtrl, StyledTextCtrl, ColorPickerButton,
                          EVT_BUTTON, Button, CheckBox, ToolTip, DropDown,
-                         EVT_DROPDOWN)
+                         EVT_DROPDOWN, EVT_COLORPICKER_BUTTON)
 from gswidgetkit.icons import ICON_TEST
 
 
@@ -130,9 +130,9 @@ and darkest parts of a picture.""", target=ctrl11, footer="Shortcut: Ctrl+S")
         # Events
         self.Bind(EVT_NUMBERFIELD_CHANGE, self.OnFieldChange, ctrl1)
         self.Bind(EVT_NUMBERFIELD, self.OnField, ctrl1)
-        self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl8)
-        self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl9)
-        self.Bind(EVT_BUTTON, self.OnColorChosen, ctrl10)
+        self.Bind(EVT_COLORPICKER_BUTTON, self.OnColorChosen, ctrl8)
+        self.Bind(EVT_COLORPICKER_BUTTON, self.OnColorChosen, ctrl9)
+        self.Bind(EVT_COLORPICKER_BUTTON, self.OnColorChosen, ctrl10)
         self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl11)
         self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl12)
         self.Bind(EVT_BUTTON, self.OnButtonClick, ctrl13)

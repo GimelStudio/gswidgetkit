@@ -1,7 +1,7 @@
 from .number_field import (NumberField, EVT_NUMBERFIELD,
                            EVT_NUMBERFIELD_CHANGE)
 from .buttons import Button, EVT_BUTTON
-from .color_picker import ColorPickerButton
+from .color_picker import ColorPickerButton, EVT_COLORPICKER_BUTTON
 from .textctrl import TextCtrl, NativeTextCtrl, StyledTextCtrl
 from .checkbox import CheckBox
 from .tooltip import ToolTip
