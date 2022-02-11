@@ -42,16 +42,16 @@ class TestAppFrame(wx.Frame):
         ctrl1 = NumberField(self, default_value=10, label="Resolution",
                             min_value=0, max_value=25, suffix="px")
         ctrl2 = NumberField(self, default_value=98, label="Opacity",
-                            min_value=0, max_value=100, suffix="%")
+                            min_value=0, max_value=100, suffix="%", show_p=True)
 
         ctrl3 = NumberField(self, default_value=0, label="Radius",
                             min_value=0, max_value=10, suffix="", 
                             show_p=False, disable_precise=True)
 
         ctrl4 = NumberField(self, default_value=50, label="X:",
-                            min_value=0, max_value=100, suffix="", show_p=False)
+                            min_value=-10, max_value=100, suffix="", show_p=False)
         ctrl5 = NumberField(self, default_value=13, label="Y:",
-                            min_value=0, max_value=100, suffix="", show_p=False)
+                            min_value=-10, max_value=100, suffix="", show_p=False)
 
         ctrl6 = StyledTextCtrl(self, value="", style=wx.BORDER_SIMPLE,
                             placeholder="", size=(-1, 24))

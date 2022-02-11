@@ -42,7 +42,7 @@ class NumberField(wx.Control):
     :param bool `scroll_horz`: if True, the user can scroll horizontally with the mouse.
     """
     def __init__(self, parent, id=wx.ID_ANY, label="", default_value=0, min_value=0,
-                 max_value=10, suffix="px", show_p=True, disable_precise=False,
+                 max_value=100, suffix="px", show_p=True, disable_precise=False,
                  scroll_horz=True, size=wx.DefaultSize):
         wx.Control.__init__(self, parent, id, pos=wx.DefaultPosition,
                             size=size, style=wx.NO_BORDER)
@@ -219,7 +219,7 @@ class NumberField(wx.Control):
         value = self.textctrl.GetValue()
         if value != " ":
             new_value = int(value)
-            if new_value in [i for i in range(0, self.max_value+1)]:
+            if new_value in self.value_range:
                 if new_value >= self.min_value and new_value <= self.max_value:
                     self.cur_value = new_value
         self.textctrl.Hide()
@@ -332,7 +332,7 @@ class NumberField(wx.Control):
                 if self.cur_value < self.max_value:
                     self.cur_value += 1
             else:
-                if (self.cur_value - 1) >= 0:
+                if (self.cur_value - 1) >= self.min_value:
                     if self.cur_value > self.min_value:
                         self.cur_value -= 1
 
