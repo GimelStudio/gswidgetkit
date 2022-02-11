@@ -138,9 +138,8 @@ class NumberField(wx.Control):
 
         width = self.Size[0]
         height = self.Size[1]
-
-        one_val = width / self.max_value
-        self.p_val = round((self.cur_value*one_val))
+        one_val = (width) / (self.max_value + abs(self.min_value))
+        self.p_val = round(((self.cur_value + abs(self.min_value))*one_val))
 
         if self.mouse_in:
             p_color = wx.Colour(ACCENT_COLOR)
@@ -156,7 +155,7 @@ class NumberField(wx.Control):
             dc.SetBrush(wx.Brush(p_color))
             dc.DrawRoundedRectangle(0, 0, self.p_val, height, 4)
 
-            if self.p_val < width-4 and self.p_val > 4:
+            if self.p_val < width-4 and self.p_val > (self.min_value+4):
                 dc.DrawRectangle((self.p_val)-4, 0, 4, height)
 
         lbl_w, lbl_h = GetTextExtent(self.label)

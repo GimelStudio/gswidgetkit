@@ -51,7 +51,7 @@ class TestAppFrame(wx.Frame):
         ctrl4 = NumberField(self, default_value=50, label="X:",
                             min_value=-10, max_value=100, suffix="", show_p=False)
         ctrl5 = NumberField(self, default_value=13, label="Y:",
-                            min_value=-10, max_value=100, suffix="", show_p=False)
+                            min_value=-10, max_value=100, suffix="", show_p=True)
 
         ctrl6 = StyledTextCtrl(self, value="", style=wx.BORDER_SIMPLE,
                             placeholder="", size=(-1, 24))
