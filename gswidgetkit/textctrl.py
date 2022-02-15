@@ -55,7 +55,7 @@ class StyledTextCtrl(stc.StyledTextCtrl):
 class NativeTextCtrl(wx.TextCtrl):
     def __init__(self, parent, value="", style=wx.BORDER_SIMPLE, *args, **kwargs):
         wx.TextCtrl.__init__(self, parent, value=value, style=style, *args, **kwargs)
-        self.SetBackgroundColour(wx.Colour("#333333"))
+        self.SetBackgroundColour(wx.Colour(TEXTCTRL_BG_COLOR))
         self.SetForegroundColour(wx.Colour("#fff"))
 
 
