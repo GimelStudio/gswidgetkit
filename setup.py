@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
   name='gswidgetkit',
   packages=['gswidgetkit', 'gswidgetkit.icons'],
-  version='0.2.10',
+  version='0.3.0',
   license='Apache 2.0',
   description='Custom widget toolkit for easier creation of customized wxPython GUIs',
   long_description_content_type="text/markdown",
