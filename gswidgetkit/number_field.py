@@ -33,16 +33,18 @@ class NumberField(wx.Control):
     :param wx.Window `parent`: parent window. Must not be ``None``.
     :param integer `id`: window identifier. A value of -1 indicates a default value.
     :param string `label`: the displayed text on the Numberfield label.
-    :param integer `default_value`: the default value.
-    :param integer `min_value`: the minimum value the control can be set to.
-    :param integer `max_value`: the maximum value the control can be set to.
+    :param string `type_`: the type of number field ("INTEGER" or "FLOAT")
+    :param integer/float `default_value`: the default value.
+    :param integer/float `min_value`: the minimum value the control can be set to.
+    :param integer/float `max_value`: the maximum value the control can be set to.
+    :param integer/float `step_size`: how much the value increments/decrements when mouse drags on this widget
     :param string `suffix`: the label text shown directly after the value.
     :param bool `show_p`: if True, show the progress in the background of the control.
     :param bool `disable_precise`: if True, disable the ability to edit the value via typing in a precise value.
     :param bool `scroll_horz`: if True, the user can scroll horizontally with the mouse.
     """
-    def __init__(self, parent, id=wx.ID_ANY, label="", default_value=0, min_value=0,
-                 max_value=100, suffix="px", show_p=True, disable_precise=False,
+    def __init__(self, parent, id=wx.ID_ANY, label="", type_="INTEGER", default_value=0, min_value=0,
+                 max_value=100, step_size=1, suffix="px", show_p=True, disable_precise=False,
                  scroll_horz=True, size=wx.DefaultSize):
         wx.Control.__init__(self, parent, id, pos=wx.DefaultPosition,
                             size=size, style=wx.NO_BORDER)
@@ -60,13 +62,17 @@ class NumberField(wx.Control):
         else:
             self.scroll_dir = 1
 
+        self.type_ = type_
         self.cur_value = default_value
         self.min_value = min_value
         self.max_value = max_value
         self.change_rate = .5
         self.change_value = 0
+        self.step_size = step_size
         self.suffix = suffix
-        self.value_range = [i for i in range(min_value, max_value)]
+
+        self.value_range = [min_value, max_value]
+
         self.label = label
 
         self.padding_x = 20
@@ -88,7 +94,7 @@ class NumberField(wx.Control):
                                        size=(10, 24))
         self.textctrl.Hide()
         self.textctrl.Bind(wx.EVT_KILL_FOCUS, self.OnHideTextCtrl)
-        
+
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, lambda x: None)
         self.Bind(wx.EVT_CHAR_HOOK, self.OnKey)
@@ -217,10 +223,16 @@ class NumberField(wx.Control):
     def OnHideTextCtrl(self, event):
         value = self.textctrl.GetValue()
         if value != " ":
-            new_value = int(value)
-            if new_value in self.value_range:
-                if new_value >= self.min_value and new_value <= self.max_value:
-                    self.cur_value = new_value
+            if (self.type_ == "INTEGER"):
+                new_value = int(value)
+            elif (self.type_ == "FLOAT"):
+                new_value = float(value)
+            else:
+                new_value = int(value)
+
+            if new_value >= self.min_value and new_value <= self.max_value:
+                self.cur_value = new_value
+
         self.textctrl.Hide()
         self.SendChangeEvent()
         self.SendSliderEvent()
@@ -329,11 +341,11 @@ class NumberField(wx.Control):
         if self.change_value >= 1:
             if self.Increasing():
                 if self.cur_value < self.max_value:
-                    self.cur_value += 1
+                    self.cur_value += self.step_size
             else:
                 if (self.cur_value - 1) >= self.min_value:
                     if self.cur_value > self.min_value:
-                        self.cur_value -= 1
+                        self.cur_value -= self.step_size
 
             # Reset the change value since the value was just changed.
             self.change_value = 0
