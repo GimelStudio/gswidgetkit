@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
   name='gswidgetkit',
   packages=['gswidgetkit', 'gswidgetkit.icons'],
-  version='0.3.2',
+  version='0.3.3',
   license='Apache 2.0',
   description='Custom widget toolkit for easier creation of customized wxPython GUIs',
   long_description_content_type="text/markdown",
@@ -25,5 +25,7 @@ setup(
     'Programming Language :: Python :: 3',
     'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
   ],
 )
