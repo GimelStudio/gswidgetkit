@@ -13,7 +13,7 @@ setup(
   url='https://github.com/GimelStudio/gswidgetkit',
   keywords=['wxpython', 'widgets', 'custom'],
   install_requires=[
-      'wxpython==4.2.0'
+      'wxpython==4.2.1'
     ],
   classifiers=[
     'Development Status :: 2 - Pre-Alpha',
